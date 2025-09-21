@@ -5,203 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TowAI — دستیار هوشمند تلگرامی</title>
   <meta name="description" content="TowAI: ربات تلگرامی با هوش مکالمه، اتوماسیون و ادغام‌های منعطف." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IRANSansX:wght@300;400;600;800&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%2300d0ff%22/><text x=%2250%22 y=%2258%22 text-anchor=%22middle%22 font-size=%2248%22 fill=%22%2300151a%22 font-family=%22Inter%22>Τ</text></svg>">
-  <meta name="color-scheme" content="dark light">
 </head>
 <body>
-  <!-- Background layers -->
+  <!-- پس‌زمینه -->
   <div class="bg-gradient"></div>
   <div class="bg-noise"></div>
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow"></div>
 
+  <!-- هدر -->
   <header class="site-header">
-    <a class="brand" href="#">
-      <span class="logo">TowAI</span>
-      <span class="tag">Telegram AI</span>
-    </a>
-
+    <div class="brand">TowAI</div>
     <nav class="nav">
       <a href="#features">قابلیت‌ها</a>
       <a href="#demo">دمو</a>
-      <a href="#integrations">ادغام‌ها</a>
+      <a href="#about">درباره ما</a>
       <a href="#cta">شروع</a>
     </nav>
-
     <div class="actions">
-      <button id="themeToggle" class="ghost">حالت</button>
-      <a class="btn outline" href="https://t.me/TowAI_Bot" target="_blank" rel="noopener">تماس با بات</a>
-      <a class="btn solid" href="#cta">شروع رایگان</a>
-      <button class="hamburger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <button id="themeToggle" class="btn ghost">🌓</button>
+      <a class="btn solid" href="https://t.me/TowAI_Bot" target="_blank">شروع در تلگرام</a>
     </div>
   </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>دستیار تلگرامی که بیشتر از پاسخ می‌دهد—می‌فهمد.</h1>
-        <p class="subtitle">
-          TowAI مکالمه‌ها را به اقدام تبدیل می‌کند: پاسخ هوشمند، اتوماسیون وظایف و ادغام‌های سریع—همه در تلگرام.
-        </p>
-        <div class="cta-row">
-          <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank" rel="noopener">شروع در تلگرام</a>
-          <a class="btn outline xl" href="#demo">دیدن دمو</a>
-        </div>
-        <ul class="hero-points">
-          <li>هوش مکالمه چندزبانه</li>
-          <li>جریان‌های خودکار و پلاگین‌ها</li>
-          <li>راه‌اندازی در چند دقیقه</li>
-        </ul>
-      </div>
-
-      <div class="hero-visual">
-        <div class="glass card">
-          <div class="mock-terminal">
-            <div class="dots"><span></span><span></span><span></span></div>
-            <pre><code>$ tow connect --bot TowAI_Bot
-Connected ✓
-$ tow plugins add summarizer translator webhook
-Plugins installed ✓
-$ tow run
-Listening on Telegram... ⚡</code></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features -->
-    <section id="features" class="section">
-      <h2>قابلیت‌هایی که کار را جلو می‌برند</h2>
-      <p class="section-sub">از پاسخ تا اقدام—TowAI فقط حرف نمی‌زند، عمل می‌کند.</p>
-      <div class="features-grid">
-        <div class="feature glass">
-          <div class="icon ic-brain"></div>
-          <h3>هوش مکالمه</h3>
-          <p>پاسخ‌های دقیق و شخصی‌سازی‌شده با درک زمینه، پشتیبانی از فارسی و انگلیسی.</p>
-        </div>
-        <div class="feature glass">
-          <div class="icon ic-automation"></div>
-          <h3>اتوماسیون وظایف</h3>
-          <p>ساخت فلوهای خودکار: دریافت فایل، خلاصه‌سازی، زمان‌بندی و ارسال گزارش.</p>
-        </div>
-        <div class="feature glass">
-          <div class="icon ic-plug"></div>
-          <h3>ادغام‌های سریع</h3>
-          <p>اتصال با وب‌هوک، API و سرویس‌های محبوب بدون پیچیدگی.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Demo -->
-    <section id="demo" class="section demo">
-      <h2>دمو تعاملی</h2>
-      <p class="section-sub">یک سوال بپرس—TowAI نمونه‌ای از پاسخ هوشمند را برایت می‌سازد.</p>
-      <div class="chat glass">
-        <div class="chat-log" id="chatLog">
-          <div class="msg ai">سلام! من TowAI هستم. ازم هرچیزی بپرس؛ مثلا: «خلاصه پیام‌های امروز گروه رو بده.»</div>
-        </div>
-        <div class="chat-input">
-          <input id="chatInput" type="text" placeholder="سوالت را بنویس..." />
-          <button id="sendBtn" class="btn solid">ارسال</button>
-        </div>
-      </div>
-      <p class="note">توجه: این دمو سمت کاربر شبیه‌سازی شده است.</p>
-    </section>
-
-    <!-- Integrations -->
-    <section id="integrations" class="section integrations">
-      <h2>ساخته‌شده برای تلگرام</h2>
-      <p class="section-sub">راه‌اندازی آسان، احراز هویت امن، و سازگاری کامل با ربات‌های تلگرامی.</p>
-      <div class="integrations-grid">
-        <div class="integration glass">
-          <div class="icon ic-telegram"></div>
-          <h3>اتصال فوری</h3>
-          <p>کمتر از چند دقیقه تا اولین پیام—بدون نیاز به سرور پیچیده.</p>
-        </div>
-        <div class="integration glass">
-          <div class="icon ic-api"></div>
-          <h3>API و وب‌هوک</h3>
-          <p>فراخوانی اکشن‌ها از بیرون، دریافت رویدادها و ساخت فلوهای سفارشی.</p>
-        </div>
-        <div class="integration glass">
-          <div class="icon ic-security"></div>
-          <h3>امنیت پیش‌فرض</h3>
-          <p>HTTPS اجباری، توکن‌های امن، و نرخ‌دهی کنترل‌شده.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="cta" class="section cta">
-      <div class="cta-card glass">
-        <h2>رایگان شروع کن—بعداً حرفه‌ای شو</h2>
-        <p>TowAI را همین حالا به گروه یا کانالت اضافه کن و یک روزه راه‌اندازی کن.</p>
-        <div class="cta-row">
-          <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank" rel="noopener">اضافه کردن به تلگرام</a>
-          <a class="btn outline xl" href="https://github.com/yourname/TowAI.github.io" target="_blank" rel="noopener">مشاهده کد</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div>
-        <div class="logo">TowAI</div>
-        <p>دستیار هوشمند تلگرامی برای تیم‌هایی که سریع‌تر می‌سازند.</p>
-      </div>
-      <div>
-        <h4>محصول</h4>
-        <a href="#features">قابلیت‌ها</a>
-        <a href="#demo">دمو</a>
-        <a href="#cta">شروع</a>
-      </div>
-      <div>
-        <h4>منابع</h4>
-        <a href="https://core.telegram.org/bots" target="_blank" rel="noopener">Telegram Bot Docs</a>
-        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
-      </div>
-      <div>
-        <h4>شبکه‌ها</h4>
-        <a href="https://t.me/TowAI_Bot" target="_blank" rel="noopener">تلگرام</a>
+  <!-- هیرو -->
+  <section class="hero fade-in">
+    <div class="hero-content">
+      <h1>دستیار تلگرامی که فقط پاسخ نمی‌دهد—می‌فهمد.</h1>
+      <p class="subtitle">TowAI مکالمه‌ها را به اقدام تبدیل می‌کند: پاسخ هوشمند، اتوماسیون وظایف و ادغام‌های سریع.</p>
+      <div class="cta-row">
+        <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank">شروع در تلگرام</a>
+        <a class="btn outline xl" href="#demo">دیدن دمو</a>
       </div>
     </div>
-    <div class="copy">© <span id="year"></span> TowAI. همه حقوق محفوظ است.</div>
+    <div class="hero-visual glass">
+      <!-- موکاپ یا ویدیو -->
+      <video autoplay muted loop playsinline>
+        <source src="assets/towai-demo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- قابلیت‌ها -->
+  <section id="features" class="section fade-in">
+    <h2>قابلیت‌های کلیدی TowAI</h2>
+    <div class="features-grid">
+      <div class="feature glass">🤖 <h3>هوش مکالمه</h3><p>پاسخ‌های دقیق و شخصی‌سازی‌شده با پشتیبانی چندزبانه.</p></div>
+      <div class="feature glass">⚡ <h3>اتوماسیون</h3><p>ساخت فلوهای خودکار: خلاصه‌سازی، زمان‌بندی، ارسال گزارش.</p></div>
+      <div class="feature glass">🔌 <h3>ادغام‌ها</h3><p>اتصال سریع با API و وب‌هوک برای سرویس‌های محبوب.</p></div>
+    </div>
+  </section>
+
+  <!-- دمو -->
+  <section id="demo" class="section fade-in">
+    <h2>دمو تعاملی</h2>
+    <div class="chat glass">
+      <div class="chat-log" id="chatLog">
+        <div class="msg ai">سلام! من TowAI هستم. ازم هرچیزی بپرس.</div>
+      </div>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="سوالت را بنویس..." />
+        <button id="sendBtn" class="btn solid">ارسال</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section fade-in">
+    <div class="cta-card glass">
+      <h2>TowAI را همین حالا امتحان کن</h2>
+      <p>رایگان شروع کن و بعد حرفه‌ای شو.</p>
+      <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank">اضافه کردن به تلگرام</a>
+    </div>
+  </section>
+
+  <!-- فوتر -->
+  <footer class="site-footer">
+    <p>© <span id="year"></span> TowAI — همه حقوق محفوظ است.</p>
   </footer>
 
   <script>
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const saved = localStorage.getItem('theme');
-    if (saved) document.documentElement.dataset.theme = saved;
-    else document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
-    themeToggle.addEventListener('click', () => {
-      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem('theme', next);
-    });
+    // سال فوتر
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Mobile menu
-    const burger = document.querySelector('.hamburger');
-    const nav = document.querySelector('.nav');
-    burger.addEventListener('click', () => {
-      const open = burger.getAttribute('aria-expanded') === 'true';
-      burger.setAttribute('aria-expanded', String(!open));
-      document.body.classList.toggle('nav-open');
-    });
-
-    // Demo chat (client-side mock)
+    // دمو چت
     const chatLog = document.getElementById('chatLog');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
-
     function addMsg(text, who='user') {
       const div = document.createElement('div');
       div.className = 'msg ' + (who === 'ai' ? 'ai' : 'user');
@@ -209,34 +100,24 @@ Listening on Telegram... ⚡</code></pre>
       chatLog.appendChild(div);
       chatLog.scrollTop = chatLog.scrollHeight;
     }
-
-    function aiReply(prompt) {
+    function aiReply() {
       const replies = [
-        'خلاصه امروز گروه: ۱۲ پیام کلیدی، ۳ تصمیم، ۲ وظیفه. فایل گزارش برات آماده شد.',
-        'پیشنهاد: یک فلو اتوماسیون بسازیم تا فایل‌های ارسالی رو به پوشه ابری منتقل کنه.',
-        'این پیام طولانیه—می‌خوای خلاصه‌ش رو در ۵ نکته بگم؟',
-        'زمان‌بندی انجام شد. ساعت ۹ صبح فردا یک یادآور ارسال می‌کنم.',
-        'ترجمه آماده شد. می‌خوای فایلش رو هم ذخیره کنم؟'
+        'خلاصه امروز گروه: ۱۲ پیام کلیدی، ۳ تصمیم، ۲ وظیفه.',
+        'پیشنهاد: یک فلو اتوماسیون بسازیم تا فایل‌ها منتقل بشن.',
+        'این پیام طولانیه—می‌خوای خلاصه‌ش کنم؟'
       ];
       const pick = replies[Math.floor(Math.random()*replies.length)];
-      setTimeout(() => addMsg(pick, 'ai'), 600);
+      setTimeout(()=>addMsg(pick,'ai'),600);
     }
-
     function send() {
       const val = chatInput.value.trim();
       if (!val) return;
-      addMsg(val, 'user');
-      chatInput.value = '';
-      aiReply(val);
+      addMsg(val,'user');
+      chatInput.value='';
+      aiReply();
     }
-
-    sendBtn.addEventListener('click', send);
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') send();
-    });
-
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    sendBtn.addEventListener('click',send);
+    chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')send();});
   </script>
 </body>
 </html>
