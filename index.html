@@ -85,6 +85,7 @@
     <p>© <span id="year"></span> TowAI — همه حقوق محفوظ است.</p>
   </footer>
 
+  <!-- اسکریپت‌ها -->
   <script>
     // سال فوتر
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -118,20 +119,17 @@
     }
     sendBtn.addEventListener('click',send);
     chatInput.addEventListener('keydown',e=>{if(e.key==='Enter')send();});
-  </script>
-  <script>
-// انیمیشن اسکرول با Intersection Observer
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target); // فقط یکبار اجرا بشه
-    }
-  });
-}, { threshold: 0.2 }); // وقتی 20٪ از المان دیده شد
 
-// انتخاب همه سکشن‌هایی که کلاس fade-in دارن
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
+    // ✨ انیمیشن اسکرول با Intersection Observer
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
