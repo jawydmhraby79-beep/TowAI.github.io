@@ -1,113 +1,219 @@
-/* 🎨 متغیرهای رنگی TowAI */
+/* متغیرهای رنگ و تم */
 :root {
   --bg: #0b1115;
-  --text: #d8e5ea;
-  --text-dim: #a8b9c0;
+  --txt: #d8e5ea;
+  --txt-dim: #a8b9c0;
   --card: rgba(255,255,255,0.06);
   --stroke: rgba(255,255,255,0.12);
   --primary: #00d0ff;
   --secondary: #7a5cff;
+  --accent: #3bf0a5;
 }
 
 :root[data-theme="light"] {
   --bg: #f7fbfd;
-  --text: #0c1a21;
-  --text-dim: #3f5b67;
+  --txt: #0c1a21;
+  --txt-dim: #3f5b67;
   --card: rgba(0,0,0,0.06);
   --stroke: rgba(0,0,0,0.08);
   --primary: #0066ff;
   --secondary: #7a5cff;
+  --accent: #00c389;
 }
 
-/* 🌐 پایه */
+/* پایه تایپوگرافی و بدنه */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: "Inter","Poppins",sans-serif;
+  font-family: "Vazirmatn","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
+  color: var(--txt);
+  line-height: 1.75;
   overflow-x: hidden;
 }
 
-/* ✨ پس‌زمینه گرادیان پویا */
-.bg-gradient {
-  position: fixed; inset: 0;
-  background: linear-gradient(-45deg, #0b1115, #1a1f2b, #0b1115, #1a1f2b);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  z-index: -3;
+/* لایه‌های پس‌زمینه */
+.bg-layer { position: fixed; inset: 0; z-index: -3; }
+.gradient-mesh {
+  background: radial-gradient(1200px 800px at 80% 20%, rgba(122,92,255,.25), transparent 60%),
+              radial-gradient(900px 700px at 20% 80%, rgba(0,208,255,.20), transparent 60%),
+              linear-gradient(180deg, #0b1115 0%, #141a22 100%);
 }
-@keyframes gradientBG {
-  0% {background-position:0% 50%;}
-  50% {background-position:100% 50%;}
-  100% {background-position:0% 50%;}
+.neon-vignette {
+  z-index: -2;
+  box-shadow: inset 0 0 220px 80px rgba(0,208,255,0.08),
+              inset 0 0 280px 120px rgba(122,92,255,0.07);
 }
-.bg-noise {position:fixed;inset:0;z-index:-2;opacity:.05;}
-.bg-glow {position:fixed;inset:0;z-index:-1;box-shadow:0 0 200px 80px rgba(0,208,255,0.2) inset;}
+.orb {
+  position: fixed; border-radius: 50%; filter: blur(24px); opacity: .25; z-index: -1;
+  background: radial-gradient(circle at 30% 30%, rgba(0,208,255,.65), rgba(0,208,255,0) 60%);
+  animation: float 18s ease-in-out infinite;
+}
+.orb-b { width: 280px; height: 280px; left: 6%; top: 18%; animation-duration: 22s; }
+.orb-c { width: 220px; height: 220px; right: 8%; bottom: 14%; animation-duration: 26s; background: radial-gradient(circle at 70% 40%, rgba(122,92,255,.6), rgba(122,92,255,0) 60%); }
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(8px); }
+  100%{ transform: translateY(0) translateX(0); }
+}
 
-/* 🧭 هدر */
+/* عناصر شیشه‌ای */
+.glass {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  backdrop-filter: blur(12px);
+}
+
+/* هدر */
 .site-header {
-  position: sticky; top: 0;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 24px;
-  backdrop-filter: blur(10px);
-  background: rgba(0,0,0,0.4);
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px;
 }
-.brand {font-weight:800;font-size:20px;}
-.nav a {margin:0 10px;color:var(--text-dim);text-decoration:none;}
-.nav a:hover {color:var(--primary);}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .2px; }
+.logo-dot { width: 10px; height: 10px; background: linear-gradient(135deg,var(--primary),var(--secondary)); border-radius: 50%; box-shadow: 0 0 12px rgba(0,208,255,.8); }
+.logo-text { font-size: 18px; }
+.nav { display: flex; gap: 14px; }
+.nav a { text-decoration: none; color: var(--txt-dim); padding: 8px 10px; border-radius: 10px; }
+.nav a:hover { color: var(--primary); background: rgba(255,255,255,0.05); }
+.actions { display: flex; gap: 10px; align-items: center; }
 
-/* 🔘 دکمه‌ها */
+/* دکمه‌ها */
 .btn {
   border: 1px solid var(--stroke);
   padding: 10px 16px;
   border-radius: 12px;
   cursor: pointer;
-  font-weight: 600;
-  transition: all .3s ease;
+  font-weight: 700;
+  transition: transform .18s ease, box-shadow .3s ease, background .3s ease, color .3s ease;
+  color: var(--txt);
+  text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center;
 }
 .btn.solid {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg,var(--primary),var(--secondary));
   color: #fff;
-  box-shadow: 0 0 15px rgba(0,208,255,0.6),0 0 30px rgba(122,92,255,0.4);
+  box-shadow: 0 0 16px rgba(0,208,255,.55), 0 0 32px rgba(122,92,255,.35);
 }
-.btn.solid:hover {transform:scale(1.05);}
-.btn.outline {background:transparent;color:var(--text);}
-.btn.ghost {background:transparent;color:var(--text);}
-.btn.xl {padding:14px 20px;font-size:16px;}
+.btn.solid:hover { transform: translateY(-1px) scale(1.03); box-shadow: 0 0 24px rgba(0,208,255,.7), 0 0 48px rgba(122,92,255,.5); }
+.btn.outline { background: transparent; }
+.btn.outline:hover { background: rgba(255,255,255,0.06); }
+.btn.ghost { background: transparent; }
+.btn.xl { padding: 14px 20px; font-size: 16px; }
 
-/* 🦸‍♂️ هیرو */
-.hero {
-  display:grid;grid-template-columns:1fr 1fr;align-items:center;
-  padding:80px 24px;gap:20px;
+/* سکشن‌ها */
+.section { padding: 84px 20px; max-width: 1200px; margin: 0 auto; }
+h1,h2,h3 { line-height: 1.25; margin: 0 0 12px 0; }
+h2 { font-size: clamp(22px, 3.2vw, 34px); text-align: center; }
+.section-sub { text-align: center; color: var(--txt-dim); margin-bottom: 26px; }
+
+/* هیرو */
+.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; }
+.hero-copy h1 { font-size: clamp(26px, 4.2vw, 48px); }
+.subtitle { color: var(--txt-dim); margin: 10px 0 16px; }
+.cta-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 16px; }
+.hero-bullets { list-style: none; padding: 0; margin: 8px 0 16px; display: grid; gap: 6px; }
+.hero-bullets li { display: flex; align-items: center; gap: 8px; color: var(--txt-dim); }
+.stats-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.stat { display: flex; flex-direction: column; align-items: flex-start; padding: 10px 14px; border: 1px dashed var(--stroke); border-radius: 12px; }
+.stat strong { font-size: 20px; }
+.phone-mock { position: relative; border-radius: 22px; overflow: hidden; border: 1px solid var(--stroke); }
+.phone-mock video { display: block; width: 100%; height: auto; }
+.neon-ring { position: absolute; inset: -20%; border-radius: 50%; pointer-events: none; box-shadow: 0 0 120px 40px rgba(0,208,255,.15) inset, 0 0 120px 40px rgba(122,92,255,.1) inset; }
+
+/* لوگو-مارکی */
+.logo-marquee-wrap { overflow: hidden; margin-top: 28px; }
+.logo-marquee {
+  display: inline-flex; gap: 18px; white-space: nowrap;
+  animation: scrollX 22s linear infinite;
 }
-.hero h1 {font-size:clamp(28px,4vw,48px);}
-.hero .subtitle {color:var(--text-dim);}
-.hero-visual video {width:100%;border-radius:16px;}
+@keyframes scrollX {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.logo-chip {
+  display: inline-flex; align-items: center; padding: 8px 12px;
+  border-radius: 999px; color: var(--txt-dim);
+  background: rgba(255,255,255,0.05); border: 1px solid var(--stroke);
+}
 
-/* 📦 سکشن‌ها */
-.section {padding:80px 24px;text-align:center;}
-.features-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
-.feature {padding:20px;border-radius:16px;background:var(--card);backdrop-filter: blur(10px);}
+/* تب قابلیت‌ها */
+.tabs { border-radius: 16px; padding: 14px; }
+.tab-list { display: flex; gap: 10px; flex-wrap: wrap; }
+.tab {
+  border: 1px solid var(--stroke); background: transparent; color: var(--txt-dim);
+  padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;
+}
+.tab.active { color: #fff; background: linear-gradient(135deg,var(--primary),var(--secondary)); box-shadow: 0 0 14px rgba(0,208,255,.45); }
+.tab-panels { margin-top: 14px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.panel-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.card { padding: 18px; border-radius: 16px; text-align: right; }
 
-/* 💬 چت دمو */
-.chat {max-width:600px;margin:0 auto;padding:20px;}
-.chat-log {height:250px;overflow:auto;padding:16px;border:1px solid var(--stroke);border-radius:12px;background:rgba(0,0,0,0.2);}
-.msg {padding:10px 12px;border-radius:12px;margin-bottom:10px;max-width:80%;}
-.msg.user {background:rgba(0,208,255,0.12);margin-left:auto;}
-.msg.ai {background:rgba(122,92,255,0.12);}
-.chat-input {display:flex;gap:10px;margin-top:12px;}
-.chat-input input {flex:1;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:var(--card);color:var(--text);}
+/* مراحل */
+.steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.step { padding: 18px; border-radius: 16px; position: relative; }
+.step-index {
+  position: absolute; top: 12px; left: 12px; width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center; color: #081014; background: linear-gradient(135deg,var(--primary),var(--secondary));
+  font-weight: 900; font-size: 14px;
+}
 
-/* 📢 CTA */
-.cta-card {padding:30px;border-radius:16px;background:var(--card);backdrop-filter:blur(10px);}
-.cta-card h2 {margin-bottom:10px;}
+/* چت دمو */
+.chat { max-width: 720px; margin: 0 auto; padding: 16px; border-radius: 16px; }
+.chat-log { height: 280px; overflow: auto; padding: 14px; border: 1px solid var(--stroke); border-radius: 12px; background: rgba(0,0,0,.22); }
+.msg { padding: 10px 12px; border-radius: 12px; margin: 8px 0; max-width: 80%; word-wrap: break-word; }
+.msg.user { margin-left: auto; background: rgba(0,208,255,0.12); border: 1px solid rgba(0,208,255,0.25); }
+.msg.ai { background: rgba(122,92,255,0.12); border: 1px solid rgba(122,92,255,0.25); }
+.chat-input { display: flex; gap: 10px; margin-top: 12px; }
+.chat-input input {
+  flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--stroke);
+  background: var(--card); color: var(--txt);
+}
+.typing { display: none; gap: 6px; padding: 10px; }
+.typing.show { display: inline-flex; }
+.typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--txt-dim);
+  animation: bounce .9s infinite ease-in-out;
+}
+.typing span:nth-child(2){ animation-delay: .15s; }
+.typing span:nth-child(3){ animation-delay: .3s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: .4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
 
-/* ⚡ انیمیشن اسکرول */
-.fade-in {opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease;}
-.fade-in.visible {opacity:1;transform:translateY(0);}
+/* تستیمونیال */
+.testi-carousel { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.testi { padding: 18px; border-radius: 16px; opacity: .75; transition: opacity .3s ease, transform .3s ease; }
+.testi.active, .testi:hover { opacity: 1; transform: translateY(-2px); }
+.t-meta { margin-top: 10px; color: var(--txt-dim); font-size: 14px; }
 
-/* 📱 ریسپانسیو */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;}
+/* قیمت */
+.pricing-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; max-width: 900px; margin: 0 auto; }
+.price-card { padding: 20px; border-radius: 16px; position: relative; }
+.price-card .badge {
+  position: absolute; top: 12px; left: 12px; font-size: 12px; font-weight: 800;
+  padding: 6px 10px; border-radius: 999px; color: #081014; background: linear-gradient(135deg,var(--primary),var(--secondary));
+}
+.price-card.featured { box-shadow: 0 0 20px rgba(0,208,255,.15), 0 0 20px rgba(122,92,255,.12) inset; }
+.price { font-size: 22px; margin: 8px 0 12px; }
+.features { list-style: none; padding: 0; margin: 0 0 14px; color: var(--txt-dim); }
+.features li { padding: 6px 0; }
+
+/* فوتر */
+.site-footer { padding: 40px 20px; text-align: center; color: var(--txt-dim); }
+
+/* اسکرول-ریویل */
+.fade-in { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ریسپانسیو */
+@media (max-width: 1000px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .panel-grid, .steps-grid, .testi-carousel { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .nav { display: none; } /* برای سادگی: در مرحله بعد منوی موبایل هم می‌تونیم اضافه کنیم */
 }
