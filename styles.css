@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: #1C2526; /* Dark Telegram-inspired background */
+  color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+.header {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  top: 20px;
+  width: 100px;
+  filter: drop-shadow(0 0 10px #3390EC);
+}
+
+#galaxy-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.section {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+h1, h2 {
+  font-size: 2.5em;
+  text-shadow: 0 0 10px #3390EC;
+}
+
+.feature-block {
+  display: inline-block;
+  margin: 20px;
+  padding: 20px;
+  background: rgba(51, 144, 236, 0.2);
+  border: 1px solid #3390EC;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.feature-block:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #3390EC;
+}
+
+#particles-js {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  background: #3390EC;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #3390EC;
+}
+
+.cta-button:hover {
+  background: #1C2526;
+  border: 1px solid #3390EC;
+}
+
+/* Custom Cursor */
+body {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: url('assets/telegram-logo.svg') no-repeat center;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 9999;
+  filter: drop-shadow(0 0 5px #3390EC);
+}
