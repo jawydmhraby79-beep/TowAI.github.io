@@ -19,39 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   animate();
 
-  // GSAP Scroll Animations
+  // GSAP Animations
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.from('#home', {
-    scrollTrigger: '#home',
+  gsap.from('.section', {
+    scrollTrigger: '.section',
     opacity: 0,
     y: 100,
     duration: 1
   });
 
-  gsap.from('.feature-block', {
-    scrollTrigger: '#features',
+  gsap.from('.feature-block, .code-block, .contact-form', {
+    scrollTrigger: '.section',
     opacity: 0,
     scale: 0.8,
     stagger: 0.2,
     duration: 0.8
   });
 
-  gsap.from('#open-source', {
-    scrollTrigger: '#open-source',
-    opacity: 0,
-    x: -100,
-    duration: 1
-  });
-
-  gsap.from('#contact', {
-    scrollTrigger: '#contact',
-    opacity: 0,
-    y: 100,
-    duration: 1
-  });
-
-  // Particles.js for Meteor Shower (1s and 0s)
+  // Particles.js for Meteor Shower
   particlesJS('particles-js', {
     particles: {
       number: { value: 100 },
@@ -90,4 +76,40 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(moveShuttle);
   }
   moveShuttle();
+
+  // Chat Demo (Features Page)
+  const chatInput = document.getElementById('chat-input');
+  const chatOutput = document.getElementById('chat-output');
+  if (chatInput && chatOutput) {
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && chatInput.value.trim()) {
+        const userMessage = chatInput.value;
+        chatOutput.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
+        chatOutput.innerHTML += `<p><strong>TOWAI:</strong> Thanks for your message! I'm an AI assistant ready to help with Telegram tasks.</p>`;
+        chatOutput.scrollTop = chatOutput.scrollHeight;
+        chatInput.value = '';
+      }
+    });
+  }
+
+  // Code Block Interaction (Open Source Page)
+  const codeBlocks = document.querySelectorAll('.code-block');
+  codeBlocks.forEach(block => {
+    block.addEventListener('click', () => {
+      block.innerHTML += `<p>API Documentation: Check out our GitHub for full details!</p>`;
+    });
+  });
+
+  // Contact Form Interaction
+  const contactFormButton = document.querySelector('.contact-form .cta-button');
+  if (contactFormButton) {
+    contactFormButton.addEventListener('click', () => {
+      const inputs = document.querySelectorAll('.form-input');
+      inputs.forEach(input => {
+        input.style.boxShadow = '0 0 15px #3390EC';
+        setTimeout(() => input.style.boxShadow = 'none', 1000);
+      });
+      alert('Feedback submitted! Connect with TOWAI on Telegram for more.');
+    });
+  }
 });
