@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOWAI - Features</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://vincentgarreau.com/particles.js/particles.js"></script>
+</head>
+<body>
+  <header class="header">
+    <img src="assets/logo.svg" alt="TOWAI Logo" class="logo">
+    <div id="galaxy-canvas"></div>
+  </header>
+
+  <section id="features" class="section">
+    <h1>TOWAI Features</h1>
+    <div class="feature-block" data-feature="account">
+      <h2>Account Management</h2>
+      <p>Manage your Telegram account with AI-powered insights.</p>
+    </div>
+    <div class="feature-block" data-feature="group">
+      <h2>Group & Channel Tools</h2>
+      <p>Automate and enhance your Telegram groups and channels.</p>
+    </div>
+    <div class="feature-block" data-feature="open-source">
+      <h2>Open-Source</h2>
+      <p>Contribute to TOWAI's development.</p>
+    </div>
+    <div id="chat-demo" class="chat-container">
+      <input type="text" id="chat-input" placeholder="Try chatting with TOWAI...">
+      <div id="chat-output"></div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
