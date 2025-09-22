@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <!-- ================= META & TITLE ================= -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>TOWAI: ربات تلگرامی توسعه‌دهندگان در کهکشان کد</title>
+
+  <!-- ================= LIBRARIES ================= -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+  <!-- ================= STYLES ================= -->
+  <style>
+    body {
+      margin:0;
+      overflow:hidden;
+      background:#000;
+      font-family:monospace;
+      color:#00ffcc;
+    }
+    canvas { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; }
+    nav { position:absolute; top:20px; left:20px; z-index:3; }
+    nav a { color:#00ffcc; margin:0 10px; text-decoration:none; text-shadow:0 0 5px #00ffcc; }
+    nav a:hover { text-shadow:0 0 15px #00ffcc; }
+    .holo-text { position:absolute; text-shadow:0 0 10px #00ffcc,0 0 20px #00ffcc,0 0 30px #00ffcc; animation:float 3s infinite alternate; opacity:0.8; }
+    @keyframes float { from { transform:translateY(0) rotate(0deg); } to { transform:translateY(-15px) rotate(1deg); } }
+    .hero-text { top:10%; left:50%; transform:translateX(-50%); font-size:3em; text-align:center; }
+    .feature-panel { display:none; position:absolute; background:rgba(0,0,0,0.7); padding:15px; border:2px solid #00ffcc; box-shadow:0 0 20px #00ffcc; cursor:grab; width:300px; pointer-events:auto; z-index:4; }
+    .cta-button { padding:10px 20px; background:transparent; border:2px solid #00ffcc; color:#00ffcc; cursor:pointer; margin:10px; transition:box-shadow 0.3s; }
+    .cta-button:hover { box-shadow:0 0 15px #00ffcc; }
+    .page-content { display:none; position:absolute; z-index:2; width:80%; left:10%; top:20%; color:#fff; background:rgba(0,0,0,0.5); padding:20px; border:1px solid #00ffcc; overflow-y:auto; max-height:70%; }
+    pre { background:#001100; padding:10px; border:1px solid #00ffcc; overflow:auto; }
+    body::before { content:""; position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; background:repeating-linear-gradient(to bottom, rgba(0,255,204,0.05) 0px, rgba(0,255,204,0.05) 2px, transparent 2px, transparent 4px); animation:glitch 1s infinite; z-index:5; }
+    @keyframes glitch { 0% {opacity:1; transform:skew(0deg);} 50%{opacity:0.8; transform:skew(1deg);} 100%{opacity:1; transform:skew(0deg);} }
+    .citation { font-size:0.8em; opacity:0.7; }
+    /* Tools */
+    #tools-section { margin-top:20px; }
+    #code-input, #search-query, #x-search-query { width:100%; background:rgba(0,0,0,0.5); border:1px solid #00ffcc; color:#00ffcc; padding:8px; margin-top:5px; }
+    #code-output { margin-top:10px; background:#001100; padding:10px; border:1px solid #00ffcc; }
+    #search-results li, #x-search-results li { margin:5px 0; color:#fff; }
+    @media (max-width:768px) { .hero-text { font-size:2em; } .feature-panel { width:90%; } }
+  </style>
+</head>
+<body>
+  <!-- ================= NAV ================= -->
+  <nav>
+    <a href="#home">خانه</a>
+    <a href="#about">درباره</a>
+    <a href="#docs">مستندات</a>
+    <a href="#contact">تماس</a>
+  </nav>
+
+  <!-- ================= CANVAS ================= -->
+  <canvas id="bg"></canvas>
+
+  <!-- ================= HOME ================= -->
+  <div id="home-content" class="holo-container">
+    <div class="holo-text hero-text">TOWAI: کاوش کد در کهکشان هوش مصنوعی</div>
+    <div style="text-align:center; margin-top:25%;">
+      <a href="https://t.me/TOWAI_bot" target="_blank" class="cta-button">شروع در تلگرام</a>
+      <a href="https://github.com/your-repo/TOWAI" target="_blank" class="cta-button">مشاهده در GitHub</a>
+    </div>
+    <img src="https://img.shields.io/github/stars/your-repo/TOWAI?style=flat&color=00ffcc" style="position:absolute;top:20px;right:20px;z-index:3;">
+    <div id="feature-panel" class="feature-panel"></div>
+  </div>
+
+  <!-- ================= ABOUT ================= -->
+  <div id="about-content" class="page-content">
+    <h1>درباره TOWAI</h1>
+    <p>
+      TOWAI یک ربات تلگرامی متن‌باز است که برای توسعه‌دهندگان ساخته شده است
+      <span class="citation">[1]</span>. این ربات قابلیت تولید کد، دیباگ و استفاده از ابزارهای هوش مصنوعی را فراهم می‌کند
+      <span class="citation">[2]</span>.
+    </p>
+    <!-- X Search Tool -->
+    <div id="x-search-section">
+      <h2>ابزار جستجوی X</h2>
+      <input type="text" id="x-search-query" placeholder="کلمه کلیدی را وارد کنید...">
+      <input type="number" id="x-limit" value="10" min="1" max="50">
+      <select id="x-mode">
+        <option value="top">Top</option>
+        <option value="latest">Latest</option>
+      </select>
+      <button class="cta-button" id="x-search-btn">جستجو</button>
+      <ul id="x-search-results"></ul>
+    </div>
+  </div>
+
+  <!-- ================= DOCS ================= -->
+  <div id="docs-content" class="page-content">
+    <h1>مستندات</h1>
+    <p>
+      برای شروع از دستور <code>/start</code> استفاده کنید
+      <span class="citation">[3]</span>. برای تولید کد می‌توانید از دستور
+      <code>/write_code</code> به همراه prompt بهره ببرید
+      <span class="citation">[4]</span>.
+    </p>
+    <pre><code class="language-python">
+# نمونه:
+/start
+/write_code "ساخت تابع مرتب‌سازی لیست"
+    </code></pre>
+
+    <!-- Tools Section -->
+    <div id="tools-section">
+      <!-- Code Runner -->
+      <h2>اجرای کد</h2>
+      <textarea id="code-input" placeholder="کد Python بنویسید..."></textarea>
+      <button class="cta-button" id="run-code">اجرا</button>
+      <pre id="code-output"><code class="language-python"></code></pre>
+
+      <!-- Web Search -->
+      <h2>جستجوی وب</h2>
+      <input type="text" id="search-query" placeholder="موضوع مورد نظر را وارد کنید...">
+      <button class="cta-button" id="search-btn">جستجو</button>
+      <ul id="search-results"></ul>
+    </div>
+  </div>
+
+  <!-- ================= CONTACT ================= -->
+  <div id="contact-content" class="page-content">
+    <h1>تماس</h1>
+    <form id="contact-form">
+      <input type="text" id="name" placeholder="نام" style="width:100%;margin:5px 0;">
+      <input type="email" id="email" placeholder="ایمیل" style="width:100%;margin:5px 0;">
+      <textarea id="message" placeholder="پیام" style="width:100%;margin:5px 0;"></textarea>
+      <button type="submit" class="cta-button">ارسال</button>
+    </form>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    /* ---------- Routing ---------- */
+    const pages = ['home','about','docs','contact'];
+    function showPage(pageId){
+      pages.forEach(p=>{
+        document.getElementById(`${p}-content`).style.display = (p===pageId)?'block':'none';
+      });
+      renderer.domElement.style.opacity = (pageId!=='home')?0.3:1;
+    }
+    window.addEventListener('hashchange', ()=>showPage(location.hash.slice(1)||'home'));
+    showPage(location.hash.slice(1)||'home');
+
+    /* ---------- Three.js Setup ---------- */
+    const scene=new THREE.Scene();
+    const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+    const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+    renderer.setSize(innerWidth,innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const controls=new THREE.OrbitControls(camera,renderer.domElement);
+    controls.enableDamping=true; controls.dampingFactor=0.05; controls.minDistance=1; controls.maxDistance=20;
+
+    const terrainGeo=new THREE.PlaneGeometry(50,50,64,64);
+    const terrainMat=new THREE.MeshBasicMaterial({color:0x002222,wireframe:true,transparent:true,opacity:0.4});
+    const terrain=new THREE.Mesh(terrainGeo,terrainMat);
+    terrain.rotation.x=-Math.PI/2; terrain.position.y=-5; scene.add(terrain);
+
+    const particlesGeo=new THREE.BufferGeometry();
+    const count=5000; const positions=new Float32Array(count*3); const colors=new Float32Array(count*3);
+    for(let i=0;i<count;i++){positions[i*3]=(Math.random()-0.5)*50;positions[i*3+1]=(Math.random()-0.5)*50;positions[i*3+2]=(Math.random()-0.5)*50;colors[i*3]=0;colors[i*3+1]=Math.random();colors[i*3+2]=1;}
+    particlesGeo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+    particlesGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+    const particlesMat=new THREE.PointsMaterial({size:0.05,vertexColors:true,blending:THREE.AdditiveBlending});
+    const particles=new THREE.Points(particlesGeo,particlesMat); scene.add(particles);
+
+    const planets=[]; const feats=[{name:"سیاره ۱",color:0x00ffcc,pos:[3,0,0],snippet:"print('Hello World')"}];
+    feats.forEach(f=>{let geo=new THREE.SphereGeometry(1,32,32);let mat=new THREE.MeshBasicMaterial({color:f.color,wireframe:true});let mesh=new THREE.Mesh(geo,mat);mesh.position.set(...f.pos);mesh.userData=f;scene.add(mesh);planets.push(mesh);});
+
+    camera.position.set(0,2,10);
+
+    /* ---------- Animations ---------- */
+    gsap.to(planets,{duration:20,rotationY:Math.PI*2,repeat:-1,ease:"linear",stagger:0.5});
+    gsap.to(terrain.position,{duration:5,y:-4.5,repeat:-1,yoyo:true,ease:"sine.inOut"});
+    gsap.to(particles.rotation,{duration:60,y:Math.PI*2,repeat:-1,ease:"linear"});
+    Draggable.create('#feature-panel',{type:"x,y",bounds:"body",inertia:true});
+
+    /* ---------- Interactivity ---------- */
+    const raycaster=new THREE.Raycaster(); const mouse=new THREE.Vector2();
+    window.addEventListener('click',e=>{
+      mouse.x=(e.clientX/window.innerWidth)*2-1; mouse.y=-(e.clientY/window.innerHeight)*2+1;
+      raycaster.setFromCamera(mouse,camera);
+      const intersects=raycaster.intersectObjects(planets);
+      if(intersects.length>0){
+        const feat=intersects[0].object.userData;
+        const panel=document.getElementById('feature-panel');
+        panel.innerHTML=`<pre><code class="language-python">${feat.snippet}</code></pre>`;
+        Prism.highlightAll();
+        panel.style.left=e.clientX+'px'; panel.style.top=e.clientY+'px'; panel.style.display='block';
+        gsap.from(panel,{opacity:0,scale:0.8,duration:0.6,ease:'back.out(1.7)'});
+      }
+    });
+
+    /* ---------- Loop ---------- */
+    function animate(){requestAnimationFrame(animate);controls.update();planets.forEach(p=>p.rotation.y+=0.002);renderer.render(scene,camera);} animate();
+    window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+
+    /* ---------- Contact Form ---------- */
+    document.getElementById('contact-form').addEventListener('submit',e=>{
+      e.preventDefault();
+      if(document.getElementById('name').value && document.getElementById('email').value && document.getElementById('message').value){
+        alert('ارسال شد!');
+      } else alert('پر کنید');
+    });
+
+    /* ---------- Tools: Code Runner ---------- */
+    document.getElementById('run-code').addEventListener('click',()=>{
+      const code=document.getElementById('code-input').value;
+      const output=document.getElementById('code-output').querySelector('code');
+      output.textContent=">>> اجرای شبیه‌سازی کد...\n"+code+"\n\nنتیجه: شبیه‌سازی شد ✔️";
+      Prism.highlightAll();
+    });
+
+    /* ---------- Tools: Web Search ---------- */
+    document.getElementById('search-btn').addEventListener('click',()=>{
+      const q=document.getElementById('search-query').value;
+      const results=document.getElementById('search-results'); results.innerHTML="";
+      if(q.trim()===""){alert('لطفاً یک موضوع وارد کنید');return;}
+      for(let i=1;i<=3;i++){let li=document.createElement('li');li.textContent=`نتیجه ${i} برای "${q}" (شبیه‌سازی)`;results.appendChild(li);}
+    });
+
+    /* ---------- Tools: X Search ---------- */
+    document.getElementById('x-search-btn').addEventListener('click',()=>{
+      const q=document.getElementById('x-search-query').value;
+      const limit=document.getElementById('x-limit').value;
+      const mode=document.getElementById('x-mode').value;
+      const results=document.getElementById('x-search-results'); results.innerHTML="";
+      if(q.trim()===""){alert('کلیدواژه را وارد کنید');return;}
+      for(let i=1;i<=limit;i++){let li=document.createElement('li');li.textContent=`${mode} نتیجه ${i} برای "${q}" (شبیه‌سازی)`;results.appendChild(li);}
+    });
+
+    Prism.highlightAll();
+  </script>
+</body>
+</html>
