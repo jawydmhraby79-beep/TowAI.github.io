@@ -39,7 +39,7 @@ h1, h2 {
   text-shadow: 0 0 10px #3390EC;
 }
 
-.feature-block {
+.feature-block, .code-block, .contact-form {
   display: inline-block;
   margin: 20px;
   padding: 20px;
@@ -49,9 +49,53 @@ h1, h2 {
   transition: transform 0.3s;
 }
 
-.feature-block:hover {
+.feature-block:hover, .code-block:hover, .contact-form:hover {
   transform: scale(1.1);
   box-shadow: 0 0 20px #3390EC;
+}
+
+.chat-container {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 600px;
+  background: rgba(51, 144, 236, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#chat-input {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #3390EC;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+#chat-output {
+  margin-top: 10px;
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #3390EC;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.form-input {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #3390EC;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+.form-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px #3390EC;
 }
 
 #particles-js {
