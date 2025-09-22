@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOWAI: ربات تلگرامی توسعه‌دهندگان در کهکشان کد</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: monospace; color: #00ffcc; }
+        canvas { position: absolute; top: 0; left: 0; z-index: 1; width: 100%; height: 100%; }
+        .holo-container { position: absolute; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+        .holo-text { 
+            position: absolute; text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc; 
+            animation: float 3s infinite alternate ease-in-out; opacity: 0.8;
+            filter: drop-shadow(0 0 5px #00ffcc) blur(1px); 
+        }
+        @keyframes float { from { transform: translateY(0) rotate(0); } to { transform: translateY(-15px) rotate(1deg); } }
+        .hero-text { top: 10%; left: 50%; transform: translateX(-50%); font-size: 3em; text-align: center; }
+        .feature-panel { 
+            display: none; position: absolute; background: rgba(0,0,0,0.7); padding: 15px; border: 2px solid #00ffcc; 
+            box-shadow: 0 0 20px #00ffcc; cursor: grab; pointer-events: auto; width: 300px; 
+        }
+        .cta-button { 
+            padding: 10px 20px; background: transparent; border: 2px solid #00ffcc; 
+            color: #00ffcc; cursor: pointer; transition: box-shadow 0.3s; margin: 10px;
+        }
+        .cta-button:hover { box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc; }
+        .github-badge { position: absolute; top: 20px; right: 20px; }
+        nav { position: absolute; top: 20px; left: 20px; z-index: 3; }
+        nav a { color: #00ffcc; margin: 0 10px; text-decoration: none; text-shadow: 0 0 5px #00ffcc; }
+        .page-content { display: none; position: absolute; z-index: 2; width: 80%; left: 10%; top: 20%; color: #fff; background: rgba(0,0,0,0.5); padding: 20px; border: 1px solid #00ffcc; }
+        #contact-form { display: flex; flex-direction: column; }
+        #contact-form input, #contact-form textarea { background: transparent; border: 1px solid #00ffcc; color: #00ffcc; margin: 10px 0; padding: 10px; }
+        #contact-form button { align-self: flex-start; }
+        pre { background: #001100; padding: 10px; border: 1px solid #00ffcc; overflow: auto; }
+        body::before { content: ''; position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(transparent 0%, transparent 2px, rgba(0,255,204,0.05) 2px, rgba(0,255,204,0.05) 4px); z-index: 0; animation: glitch 1s infinite; }
+        @keyframes glitch { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; transform: skew(1deg); } }
+        @media (max-width: 768px) { .hero-text { font-size: 2em; } .feature-panel { width: 90%; } }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <nav>
+        <a href="#home">خانه</a>
+        <a href="#about">درباره</a>
+        <a href="#docs">مستندات</a>
+        <a href="#contact">تماس</a>
+    </nav>
+    <div class="holo-container" id="home-content">
+        <div class="holo-text hero-text">TOWAI: کاوش کد در کهکشان هوش مصنوعی</div>
+        <button class="cta-button" onclick="window.open('https://t.me/TOWAI_bot', '_blank')">شروع در تلگرام</button>
+        <button class="cta-button" onclick="window.open('https://github.com/your-repo/TOWAI', '_blank')">مشاهده در GitHub</button>
+        <img class="github-badge" src="https://img.shields.io/github/stars/your-repo/TOWAI?style=flat&color=00ffcc" alt="ستاره‌های GitHub">
+        <div id="feature-panel" class="feature-panel holo-text"></div>
+    </div>
+    <div id="about-content" class="page-content">
+        <h1>درباره TOWAI</h1>
+        <p>TOWAI یک ربات تلگرامی open-source برای کمک به توسعه‌دهندگان در برنامه‌نویسی و AI. ساخته‌شده با الهام از کهکشان کد، با repo در GitHub.</p>
+        <p>ویژگی‌ها: تولید کد، اشکال‌زدایی، پیشنهاد API.</p>
+    </div>
+    <div id="docs-content" class="page-content">
+        <h1>مستندات</h1>
+        <p>نحوه استفاده از ربات:</p>
+        <pre><code class="language-python"># مثال تولید کد در تلگرام
+/start
+/write_code Python function for sum</code></pre>
+        <p>برای contribute: فورک repo و pull request بفرستید.</p>
+    </div>
+    <div id="contact-content" class="page-content">
+        <h1>تماس</h1>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="نام" required>
+            <input type="email" id="email" placeholder="ایمیل" required>
+            <textarea id="message" placeholder="پیام" required></textarea>
+            <button type="submit" class="cta-button">ارسال</button>
+        </form>
+    </div>
+
+    <script>
+        // === Routing ساده با hash برای صفحات ===
+        const pages = ['home', 'about', 'docs', 'contact'];
+        function showPage(pageId) {
+            pages.forEach(p => document.getElementById(`${p}-content`).style.display = (p === pageId) ? 'block' : 'none');
+            if (pageId !== 'home') {
+                renderer.domElement.style.opacity = 0.3; // کمرنگ کردن 3D برای صفحات دیگر
+            } else {
+                renderer.domElement.style.opacity = 1;
+            }
+        }
+        window.addEventListener('hashchange', () => showPage(window.location.hash.slice(1) || 'home'));
+        showPage(window.location.hash.slice(1) || 'home');
+
+        // === Scene Setup (Three.js برای محیط immersive sci-fi) ===
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // OrbitControls برای navigation sci-fi (زوم، پن، چرخش)
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 1;
+        controls.maxDistance = 20;
+
+        // Holographic terrain (wireframe برای حس کد شبکه‌ای)
+        const terrainGeometry = new THREE.PlaneGeometry(50, 50, 64, 64);
+        const terrainMaterial = new THREE.MeshBasicMaterial({ color: 0x002222, wireframe: true, transparent: true, opacity: 0.4 });
+        const terrain = new THREE.Mesh(terrainGeometry, terrainMaterial);
+        terrain.rotation.x = -Math.PI / 2;
+        terrain.position.y = -5;
+        scene.add(terrain);
+
+        // === Particles Galaxy (از الهام Codrops: interactive particles) ===
+        const particleCount = 50000; // تعداد ذرات برای کهکشان
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 50;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+            colors[i * 3] = Math.random();
+            colors[i * 3 + 1] = Math.random();
+            colors[i * 3 + 2] = 1;
+        }
+        const particleGeometry = new THREE.BufferGeometry();
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        const particleMaterial = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, blending: THREE.AdditiveBlending });
+        const particles = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(particles);
+
+        // === سیارات ویژگی‌ها (Instanced برای کارایی) ===
+        const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
+        const planets = [];
+        const features = [
+            { name: 'تولید کد', color: 0x00ff00, position: {x: -4, y: 0, z: -6}, snippet: 'def generate_code(prompt):\n    return TOWAI.api(prompt)' },
+            { name: 'اشکال‌زدایی', color: 0xff00ff, position: {x: 4, y: 1, z: -7}, snippet: 'TOWAI.debug(code) # رفع باگ در فضا' },
+            { name: 'ابزارهای AI', color: 0x0000ff, position: {x: 0, y: 2, z: -5}, snippet: 'import TOWAI\nTOWAI.suggest_api()' },
+            { name: 'ادغام GitHub', color: 0xffff00, position: {x: -2, y: -1, z: -8}, snippet: 'git clone https://github.com/your-repo/TOWAI' }
+        ];
+
+        features.forEach((feat, i) => {
+            const material = new THREE.MeshBasicMaterial({ color: feat.color, wireframe: true, wireframeLinewidth: 2 });
+            const planet = new THREE.Mesh(planetGeometry, material);
+            planet.position.set(feat.position.x, feat.position.y, feat.position.z);
+            planet.userData = feat;
+            scene.add(planet);
+            planets.push(planet);
+        });
+
+        camera.position.set(0, 2, 10);
+
+        // === Particles.js برای ذرات کد باینری شناور (holographic) ===
+        particlesJS('home-content', {
+            particles: { number: { value: 300 }, color: { value: '#00ffcc' }, shape: { type: 'circle' }, opacity: { value: 0.6, random: true }, size: { value: 1.5, random: true },
+                move: { enable: true, speed: 0.8, direction: 'top', random: true, attract: { enable: true, rotateX: 600, rotateY: 1200 } } },
+            interactivity: { events: { onhover: { enable: true, mode: 'bubble' }, onclick: { enable: true, mode: 'repulse' } } }
+        });
+
+        // === انیمیشن‌ها با GSAP (smooth floating, rotations, terrain pulse) ===
+        gsap.to(planets, { duration: 20, rotationY: Math.PI * 2, repeat: -1, ease: 'linear', stagger: 0.5 });
+        gsap.to(terrain.position, { duration: 5, y: -4.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+        gsap.to('.holo-text', { duration: 2.5, y: -12, repeat: -1, yoyo: true, stagger: 0.3 });
+        gsap.to(particles.rotation, { duration: 60, y: Math.PI * 2, repeat: -1, ease: 'linear' }); // چرخش کهکشان
+
+        // Draggable panel برای ویژگی‌ها (GSAP)
+        Draggable.create('#feature-panel', { type: 'x,y', bounds: 'body', inertia: true });
+
+        // === Interactivity (Raycaster برای کلیک سیارات, parallax موس) ===
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
+        renderer.domElement.addEventListener('mousemove', (e) => {
+            const parallaxX = (e.clientX / window.innerWidth - 0.5) * 0.1;
+            const parallaxY = (e.clientY / window.innerHeight - 0.5) * 0.1;
+            gsap.to(camera.position, { x: parallaxX * 2, y: parallaxY * 2 + 2, duration: 0.5 });
+        });
+        renderer.domElement.addEventListener('click', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(planets);
+            if (intersects.length > 0) {
+                const feat = intersects[0].object.userData;
+                const panel = document.getElementById('feature-panel');
+                panel.innerHTML = `<pre>${feat.name}\n${feat.snippet}</pre>`;
+                panel.style.display = 'block';
+                panel.style.left = `${e.clientX}px`;
+                panel.style.top = `${e.clientY}px`;
+                gsap.from(panel, { opacity: 0, scale: 0.8, duration: 0.6, ease: 'back.out(1.7)' });
+            }
+        });
+
+        // === Render Loop ===
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            planets.forEach(p => { p.rotation.y += 0.002; });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize handler برای responsive
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // === فرم تماس validation ===
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            if (name && email && message) {
+                alert('پیام ارسال شد! (در واقعیت به سرور بفرستید)');
+            } else {
+                alert('لطفاً همه فیلدها را پر کنید.');
+            }
+        });
+
+        // Prism برای highlight کد در docs
+        Prism.highlightAll();
+    </script>
+</body>
+</html>
