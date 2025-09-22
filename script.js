@@ -62,6 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.style.top = `${e.clientY}px`;
   });
 
+  // Verify SVG Loading
+  const logo = document.querySelector('.logo');
+  if (logo && !logo.complete) {
+    logo.addEventListener('error', () => {
+      console.error('Failed to load SVG logo at assets/telegram-logo.svg');
+    });
+  }
+
   // Shuttle Animation
   const shuttle = new THREE.Mesh(
     new THREE.BoxGeometry(0.2, 0.1, 0.1),
