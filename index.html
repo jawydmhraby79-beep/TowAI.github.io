@@ -1,341 +1,1 @@
-<!doctype html>
-<html lang="fa" dir="rtl" data-theme="dark">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TowAI — دستیار تلگرامی هوشمند با مکالمه و اتوماسیون</title>
-  <meta name="description" content="TowAI: دستیار تلگرامی که مکالمه را می‌فهمد، خلاصه می‌کند، تسک می‌سازد و با سرویس‌های محبوب ادغام می‌شود." />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <!-- لایه‌های پس‌زمینه سینماتیک -->
-  <div class="bg gradient"></div>
-  <div class="bg vignette"></div>
-  <div class="orb orb-a"></div>
-  <div class="orb orb-b"></div>
-  <div class="orb orb-c"></div>
 
-  <!-- هدر -->
-  <header class="site-header glass">
-    <div class="brand">
-      <span class="logo-dot"></span>
-      <span class="logo-text">TowAI</span>
-    </div>
-    <nav class="nav">
-      <a href="#features">قابلیت‌ها</a>
-      <a href="#how">چطور کار می‌کند</a>
-      <a href="#demo">دمو</a>
-      <a href="#pricing">قیمت</a>
-    </nav>
-    <div class="actions">
-      <button id="themeToggle" class="btn ghost" aria-label="تغییر تم">🌓</button>
-      <a class="btn solid" href="https://t.me/TowAI_Bot" target="_blank" rel="noopener">شروع در تلگرام</a>
-    </div>
-  </header>
-
-  <!-- هیرو قدرتمند -->
-  <section class="hero section fade-in" id="home" aria-labelledby="heroTitle">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <h1 id="heroTitle">دستیار تلگرامی که فقط پاسخ نمی‌دهد — می‌فهمد و اقدام می‌کند.</h1>
-        <p class="subtitle">TowAI پیام‌ها را می‌فهمد، خلاصه می‌کند، تسک می‌سازد، گزارش می‌دهد و به ابزارهای تو وصل می‌شود — همه در تلگرام.</p>
-        <div class="cta-row">
-          <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank">افزودن به تلگرام</a>
-          <a class="btn outline xl" href="#demo">دیدن دمو</a>
-        </div>
-        <ul class="hero-bullets">
-          <li><span>🤖</span> پاسخ طبیعی با درک نیت</li>
-          <li><span>⚡</span> اتوماسیون با فلو‌های قابل‌تعریف</li>
-          <li><span>🔌</span> ادغام با Notion، Sheets، Slack و بیشتر</li>
-        </ul>
-        <div class="stats-row">
-          <div class="stat"><strong>99.9%</strong><span>پایداری</span></div>
-          <div class="stat"><strong><span id="counterTeams">0</span>+</strong><span>تیم در انتظار</span></div>
-          <div class="stat"><strong><span id="counterFlows">0</span>+</strong><span>فلو ساخته‌شده</span></div>
-        </div>
-      </div>
-      <div class="hero-visual glass">
-        <div class="device">
-          <video autoplay muted loop playsinline poster="assets/poster.jpg">
-            <source src="assets/towai-demo.mp4" type="video/mp4">
-          </video>
-          <div class="neon-ring"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- مارکی برندها -->
-    <div class="logo-marquee-wrap" aria-label="ادغام با سرویس‌ها">
-      <div class="logo-marquee">
-        <span class="chip">Telegram</span><span class="chip">Slack</span><span class="chip">Notion</span>
-        <span class="chip">Google Sheets</span><span class="chip">Zapier</span><span class="chip">Airtable</span>
-        <span class="chip">Make</span><span class="chip">Discord</span>
-        <span class="chip">Telegram</span><span class="chip">Slack</span><span class="chip">Notion</span>
-        <span class="chip">Google Sheets</span><span class="chip">Zapier</span><span class="chip">Airtable</span>
-        <span class="chip">Make</span><span class="chip">Discord</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- قابلیت‌ها با تب -->
-  <section id="features" class="section fade-in" aria-labelledby="featuresTitle">
-    <h2 id="featuresTitle">قابلیت‌های کلیدی TowAI</h2>
-    <p class="section-sub">هرآنچه برای سریع‌تر و هوشمندتر شدن کار تیم نیاز داری.</p>
-
-    <div class="tabs glass">
-      <div class="tab-list" role="tablist" aria-label="قابلیت‌ها">
-        <button class="tab active" role="tab" aria-selected="true" data-tab="conv">هوش مکالمه</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="auto">اتوماسیون</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="integrations">ادغام‌ها</button>
-      </div>
-
-      <div class="tab-panels">
-        <div class="tab-panel active" id="panel-conv" role="tabpanel">
-          <div class="panel-grid">
-            <div class="card glass">
-              <h3>درک نیت و پاسخ طبیعی</h3>
-              <p>تشخیص مقصود پیام‌ها، استخراج داده و پاسخ با لحن برند.</p>
-            </div>
-            <div class="card glass">
-              <h3>چندزبانه</h3>
-              <p>هم‌زمان فارسی و انگلیسی برای تیم‌های بین‌المللی.</p>
-            </div>
-            <div class="card glass">
-              <h3>خلاصه‌سازی هوشمند</h3>
-              <p>جمع‌بندی جلسات با اکشن‌آیتم‌ها و زمان‌بندی‌ها.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-auto" role="tabpanel">
-          <div class="panel-grid">
-            <div class="card glass">
-              <h3>فلو بیلدر</h3>
-              <p>تریگر، شرط، اکشن — بدون کدنویسی.</p>
-            </div>
-            <div class="card glass">
-              <h3>زمان‌بندی</h3>
-              <p>یادآورها، گزارش‌ها و اجرای خودکار در زمان‌های مشخص.</p>
-            </div>
-            <div class="card glass">
-              <h3>وب‌هوک</h3>
-              <p>اتصال رویدادها به سرویس‌های بیرونی برای چرخه‌های بسته.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="panel-integrations" role="tabpanel">
-          <div class="panel-grid">
-            <div class="card glass">
-              <h3>API دوستانه</h3>
-              <p>افزونه اختصاصی بساز و به سرویس‌های داخلی وصل شو.</p>
-            </div>
-            <div class="card glass">
-              <h3>کانکتورهای آماده</h3>
-              <p>Notion، Google Sheets، Slack، Zapier و بیشتر.</p>
-            </div>
-            <div class="card glass">
-              <h3>امنیت</h3>
-              <p>ذخیره حداقلی، لاگ شفاف و کنترل دسترسی مبتنی بر نقش.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- چطور کار می‌کند -->
-  <section id="how" class="section fade-in" aria-labelledby="howTitle">
-    <h2 id="howTitle">چطور کار می‌کند</h2>
-    <div class="steps-grid">
-      <div class="step glass">
-        <div class="step-index">۱</div>
-        <h3>اتصال به چت</h3>
-        <p>TowAI را به گروه/پی‌وی اضافه کن و دسترسی‌ها را بده.</p>
-      </div>
-      <div class="step glass">
-        <div class="step-index">۲</div>
-        <h3>تعریف فلو</h3>
-        <p>تریگر، شرط و اکشن‌ها را با دستورات یا پنل بساز.</p>
-      </div>
-      <div class="step glass">
-        <div class="step-index">۳</div>
-        <h3>اجرا و گزارش</h3>
-        <p>نتایج را ببین، لاگ‌ها را بررسی کن و بهبود بده.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- دمو تعاملی -->
-  <section id="demo" class="section fade-in" aria-labelledby="demoTitle">
-    <h2 id="demoTitle">دمو تعاملی</h2>
-    <p class="section-sub">یک سوال بنویس؛ TowAI در لحظه پاسخ می‌دهد یا خلاصه می‌سازد.</p>
-    <div class="chat glass">
-      <div class="chat-log" id="chatLog" aria-live="polite">
-        <div class="msg ai">سلام! من TowAI هستم—چطور کمک‌ات کنم؟</div>
-      </div>
-      <div class="chat-input">
-        <input id="chatInput" type="text" placeholder="مثلاً: جلسه امروز رو خلاصه کن" aria-label="نوشتن پیام" />
-        <button id="sendBtn" class="btn solid">ارسال</button>
-      </div>
-      <div class="typing" id="typing" aria-hidden="true"><span></span><span></span><span></span></div>
-    </div>
-  </section>
-
-  <!-- تستیمونیال کوتاه -->
-  <section class="section fade-in" aria-labelledby="testiTitle">
-    <h2 id="testiTitle">تجربه تیم‌ها</h2>
-    <div class="testi-carousel">
-      <div class="testi glass active">
-        <p>«هر جلسه با سه اکشن روشن تمام می‌شود. خلاصه‌ها دقیق و قابل‌اعتمادند.»</p>
-        <div class="t-meta">مدیر محصول، فین‌تک</div>
-      </div>
-      <div class="testi glass">
-        <p>«TowAI کار دستی تیم پشتیبانی را نصف کرد — یک دستیار واقعی در تلگرام.»</p>
-        <div class="t-meta">رهبر پشتیبانی، SaaS</div>
-      </div>
-      <div class="testi glass">
-        <p>«اتصال به Notion و Sheets بدون دردسر. سریع، دقیق، امن.»</p>
-        <div class="t-meta">COO، EduTech</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- قیمت -->
-  <section id="pricing" class="section fade-in" aria-labelledby="pricingTitle">
-    <h2 id="pricingTitle">قیمت‌گذاری شفاف</h2>
-    <div class="pricing-grid">
-      <div class="price-card glass">
-        <h3>رایگان</h3>
-        <p class="price">۰ تومان</p>
-        <ul class="features">
-          <li>۱ فلو پایه</li>
-          <li>۵۰۰ پیام/ماه</li>
-          <li>پشتیبانی ایمیلی</li>
-        </ul>
-        <a class="btn outline" href="https://t.me/TowAI_Bot" target="_blank">شروع سریع</a>
-      </div>
-      <div class="price-card glass featured">
-        <div class="badge">محبوب</div>
-        <h3>حرفه‌ای</h3>
-        <p class="price">تماس</p>
-        <ul class="features">
-          <li>فلو نامحدود</li>
-          <li>ادغام‌های پیشرفته</li>
-          <li>پشتیبانی اولویت‌دار</li>
-        </ul>
-        <a class="btn solid" href="https://t.me/TowAI_Bot" target="_blank">درخواست دسترسی</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA نهایی -->
-  <section id="cta" class="section fade-in">
-    <div class="cta-card glass">
-      <h2>TowAI را همین حالا به تلگرام اضافه کن</h2>
-      <p>رایگان شروع کن و هر زمان نیاز داشتی ارتقا بده.</p>
-      <a class="btn solid xl" href="https://t.me/TowAI_Bot" target="_blank">افزودن به تلگرام</a>
-    </div>
-  </section>
-
-  <!-- فوتر -->
-  <footer class="site-footer">
-    <p>© <span id="year"></span> TowAI — همه حقوق محفوظ است.</p>
-  </footer>
-
-  <!-- اسکریپت‌ها -->
-  <script>
-    // سال فوتر
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // شمارنده‌های هیرو
-    const easeOut = t => 1 - Math.pow(1 - t, 3);
-    function animateCounter(id, end, dur=1200){
-      const el = document.getElementById(id);
-      if(!el) return;
-      const t0 = performance.now();
-      function tick(t){
-        const p = Math.min(1, (t - t0) / dur);
-        el.textContent = Math.floor(easeOut(p) * end);
-        if (p < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-    animateCounter('counterTeams', 25);
-    animateCounter('counterFlows', 120);
-
-    // تب‌ها
-    const tabs = document.querySelectorAll('.tab');
-    const panels = {
-      conv: document.getElementById('panel-conv'),
-      auto: document.getElementById('panel-auto'),
-      integrations: document.getElementById('panel-integrations')
-    };
-    tabs.forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        tabs.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
-        document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-        btn.classList.add('active'); btn.setAttribute('aria-selected','true');
-        panels[btn.dataset.tab]?.classList.add('active');
-      });
-    });
-
-    // دمو چت
-    const chatLog = document.getElementById('chatLog');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const typing = document.getElementById('typing');
-    function addMsg(text, who='user') {
-      const div = document.createElement('div');
-      div.className = 'msg ' + (who === 'ai' ? 'ai' : 'user');
-      div.textContent = text;
-      chatLog.appendChild(div);
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
-    function aiReply() {
-      const replies = [
-        'خلاصه جلسه: ۵ نکته کلیدی + ۳ اکشن با موعد.',
-        'پیشنهاد فلو: دریافت فایل → پردازش → ارسال در Notion.',
-        'گزارش امروز آماده شد. منتقلش کنم به Sheets؟'
-      ];
-      typing.classList.add('show');
-      typing.setAttribute('aria-hidden','false');
-      setTimeout(()=>{
-        typing.classList.remove('show');
-        typing.setAttribute('aria-hidden','true');
-        addMsg(replies[Math.floor(Math.random()*replies.length)], 'ai');
-      }, 950);
-    }
-    function send() {
-      const val = chatInput.value.trim();
-      if (!val) return;
-      addMsg(val, 'user');
-      chatInput.value = '';
-      aiReply();
-    }
-    sendBtn.addEventListener('click', send);
-    chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
-
-    // اسکرول-ریویل
-    const observer = new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },{threshold:0.2});
-    document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
-
-    // تغییر تم
-    const themeBtn = document.getElementById('themeToggle');
-    const root = document.documentElement;
-    themeBtn.addEventListener('click',()=>{
-      const curr = root.getAttribute('data-theme') || 'dark';
-      root.setAttribute('data-theme', curr === 'dark' ? 'light' : 'dark');
-    });
-  </script>
-</body>
-</html>
