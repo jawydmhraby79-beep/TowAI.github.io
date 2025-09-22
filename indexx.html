@@ -1,233 +1,846 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+  TOWAI: Single-file SPA (Persian RTL) - Three.js + GSAP + Particles.js + Prism
+  - Dark sci-fi theme: holographic floats, wireframe planets, orbiting animations, glitch/scanline
+  - Hash routing: #home, #about, #docs, #contact
+  - Libraries (CDNs): Three r128, OrbitControls r128, GSAP 3.12.5 + Draggable, Particles.js 2.0.0, Prism 1.29.0
+  - Note: replace "your-repo" placeholder with your actual GitHub repo path.
+-->
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOWAI: ربات تلگرامی توسعه‌دهندگان در کهکشان کد</title>
-    <style>
-        body { margin: 0; overflow: hidden; background: #000; font-family: monospace; color: #00ffcc; }
-        canvas { position: absolute; top: 0; left: 0; z-index: 1; width: 100%; height: 100%; }
-        .holo-container { position: absolute; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
-        .holo-text { 
-            position: absolute; text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc; 
-            animation: float 3s infinite alternate ease-in-out; opacity: 0.8;
-            filter: drop-shadow(0 0 5px #00ffcc) blur(1px); 
-        }
-        @keyframes float { from { transform: translateY(0) rotate(0); } to { transform: translateY(-15px) rotate(1deg); } }
-        .hero-text { top: 10%; left: 50%; transform: translateX(-50%); font-size: 3em; text-align: center; }
-        .feature-panel { 
-            display: none; position: absolute; background: rgba(0,0,0,0.7); padding: 15px; border: 2px solid #00ffcc; 
-            box-shadow: 0 0 20px #00ffcc; cursor: grab; pointer-events: auto; width: 300px; 
-        }
-        .cta-button { 
-            padding: 10px 20px; background: transparent; border: 2px solid #00ffcc; 
-            color: #00ffcc; cursor: pointer; transition: box-shadow 0.3s; margin: 10px;
-        }
-        .cta-button:hover { box-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc; }
-        .github-badge { position: absolute; top: 20px; right: 20px; }
-        nav { position: absolute; top: 20px; left: 20px; z-index: 3; }
-        nav a { color: #00ffcc; margin: 0 10px; text-decoration: none; text-shadow: 0 0 5px #00ffcc; }
-        .page-content { display: none; position: absolute; z-index: 2; width: 80%; left: 10%; top: 20%; color: #fff; background: rgba(0,0,0,0.5); padding: 20px; border: 1px solid #00ffcc; }
-        #contact-form { display: flex; flex-direction: column; }
-        #contact-form input, #contact-form textarea { background: transparent; border: 1px solid #00ffcc; color: #00ffcc; margin: 10px 0; padding: 10px; }
-        #contact-form button { align-self: flex-start; }
-        pre { background: #001100; padding: 10px; border: 1px solid #00ffcc; overflow: auto; }
-        body::before { content: ''; position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(transparent 0%, transparent 2px, rgba(0,255,204,0.05) 2px, rgba(0,255,204,0.05) 4px); z-index: 0; animation: glitch 1s infinite; }
-        @keyframes glitch { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; transform: skew(1deg); } }
-        @media (max-width: 768px) { .hero-text { font-size: 2em; } .feature-panel { width: 90%; } }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TOWAI: ربات تلگرامی توسعه‌دهندگان در کهکشان کد</title>
+
+  <!-- Three.js r128 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- OrbitControls for r128 -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- GSAP 3.12.5 + Draggable -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js"></script>
+
+  <!-- Particles.js 2.0.0 -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <!-- Prism.js 1.29.0 (CSS + core + python support) -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+  <!-- Basic meta + small stylesheet -->
+  <style>
+    /* ===========================
+       Global & base (dark sci-fi + RTL)
+       =========================== */
+    :root{
+      --accent:#00ffcc;
+      --bg:#000;
+      --panel-bg: rgba(0,0,0,0.6);
+      --glass-border: 1px solid rgba(0,255,204,0.18);
+    }
+    html,body{ height:100%; }
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--accent);
+      font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      direction: rtl;
+    }
+
+    /* ===========================
+       Canvas (Three.js) - full screen
+       z-index:1 per spec
+       =========================== */
+    canvas#three-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: block;
+    }
+
+    /* ===========================
+       Navigation (top-left fixed)
+       =========================== */
+    nav {
+      position: absolute;
+      top: 18px;
+      left: 18px; /* because RTL, left is visual top-left per spec */
+      z-index: 4;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      pointer-events: auto;
+      user-select: none;
+    }
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-shadow: 0 0 8px rgba(0,255,204,0.85);
+      font-weight: 600;
+      background: linear-gradient(90deg, rgba(0,255,204,0.02), transparent);
+      border: 1px solid rgba(0,255,204,0.06);
+      transition: transform .18s ease, box-shadow .18s;
+      cursor: pointer;
+    }
+    nav a:hover { transform: translateY(-3px); box-shadow: 0 0 18px rgba(0,255,204,0.12); }
+
+    /* ===========================
+       Page containers (z-index:2)
+       Initially only home visible
+       =========================== */
+    .page-container {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none; /* enable underlying canvas interactions except where we allow */
+    }
+
+    /* specific content blocks */
+    .page-content, .holo-container {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      pointer-events: auto;
+      width: 80%;
+      left: 10%;
+      top: 14%;
+      color: var(--accent);
+      background: rgba(0,0,0,0.45);
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,255,204,0.12);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6), 0 0 40px rgba(0,255,204,0.04);
+      backdrop-filter: blur(6px) saturate(1.1);
+      overflow: auto;
+      max-height: 72%;
+    }
+
+    /* Home hero */
+    .holo-container { pointer-events: none; }
+    .hero-text {
+      pointer-events: auto;
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3em;
+      text-align: center;
+      line-height: 1.05;
+      color: var(--accent);
+      opacity: 0.92;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: 2px solid rgba(0,255,204,0.06);
+      background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,255,204,0.02));
+      pointer-events: auto;
+    }
+
+    .holo-text {
+      position: absolute;
+      color: var(--accent);
+      text-shadow: 0 0 8px rgba(0,255,204,0.95), 0 0 30px rgba(0,255,204,0.06);
+      animation: float 3s infinite alternate ease-in-out;
+      opacity: 0.85;
+      pointer-events: auto;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-15px) rotate(1deg); }
+    }
+
+    /* CTA buttons */
+    .cta-row {
+      position: absolute;
+      top: 28%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: auto;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .cta-button {
+      padding: 10px 18px;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: box-shadow .25s ease, transform .15s ease;
+      backdrop-filter: blur(4px);
+    }
+    .cta-button:hover {
+      box-shadow: 0 0 18px rgba(0,255,204,0.18);
+      transform: translateY(-3px);
+    }
+
+    /* GitHub badge top-right */
+    .gh-badge {
+      position: absolute;
+      top: 14px;
+      right: 20px;
+      z-index: 5;
+      pointer-events: auto;
+      filter: drop-shadow(0 0 10px rgba(0,255,204,0.55));
+    }
+    .gh-badge img { height: 28px; display:block; }
+
+    /* Feature panel (draggable) */
+    .feature-panel {
+      display: none; /* toggled when planet clicked */
+      position: absolute;
+      z-index: 6;
+      background: rgba(0,0,0,0.75);
+      padding: 14px;
+      border-radius: 8px;
+      border: 2px solid rgba(0,255,204,0.14);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,255,204,0.06);
+      cursor: grab;
+      width: 320px;
+      color: var(--accent);
+      pointer-events: auto;
+      user-select: text;
+    }
+    .feature-panel:active { cursor: grabbing; }
+
+    /* Pages content (about/docs/contact) */
+    .page-content h1 {
+      margin: 0 0 10px 0;
+      font-size: 1.8em;
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(0,255,204,0.6);
+    }
+    .page-content p { line-height: 1.6; color: rgba(0,255,204,0.95); }
+    .page-content ul { padding-inline-start: 1.1rem; }
+
+    pre {
+      background: #001100;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,255,204,0.06);
+      overflow: auto;
+      color: #c8fff2;
+    }
+
+    /* Contact form */
+    form#contact-form { display:flex; flex-direction: column; gap:10px; }
+    input[type="text"], input[type="email"], textarea {
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(0,255,204,0.06);
+      color: var(--accent);
+      padding: 10px;
+      border-radius: 6px;
+      min-width: 0;
+    }
+    textarea { min-height: 120px; resize:vertical; }
+
+    /* Helpers and small UI */
+    .muted { color: rgba(0,255,204,0.55); font-size:0.95em; }
+    .small { font-size:0.9em; color: rgba(0,255,204,0.75); }
+
+    /* ===========================
+       Scanline / glitch overlay (body::before)
+       =========================== */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      background-image: repeating-linear-gradient(
+        180deg,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0.02) 1px,
+        rgba(0,0,0,0) 2px
+      );
+      mix-blend-mode: overlay;
+      opacity: 0.25;
+      animation: glitch .9s infinite linear;
+    }
+    @keyframes glitch {
+      0% { transform: skewY(0deg); opacity: 0.25; }
+      50% { transform: skewY(0.4deg); opacity: 0.28; }
+      100% { transform: skewY(0deg); opacity: 0.25; }
+    }
+
+    /* Page visibility helpers (we toggle display via JS) */
+    .visible { display: block !important; }
+
+    /* ===========================
+       Responsive
+       =========================== */
+    @media (max-width: 768px) {
+      .hero-text { font-size: 2em; top: 6%; width: 92%; left: 50%; transform: translateX(-50%); }
+      .page-content, .holo-container { width: 92%; left: 4%; top: 12%; max-height: 74%; }
+      .feature-panel { width: 92%; left: 4% !important; top: auto !important; bottom: 8%; }
+      nav { left: 10px; top: 10px; gap: 8px; }
+      .gh-badge { display: none; } /* save space on mobile */
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="#home">خانه</a>
-        <a href="#about">درباره</a>
-        <a href="#docs">مستندات</a>
-        <a href="#contact">تماس</a>
-    </nav>
-    <div class="holo-container" id="home-content">
-        <div class="holo-text hero-text">TOWAI: کاوش کد در کهکشان هوش مصنوعی</div>
-        <button class="cta-button" onclick="window.open('https://t.me/TOWAI_bot', '_blank')">شروع در تلگرام</button>
-        <button class="cta-button" onclick="window.open('https://github.com/your-repo/TOWAI', '_blank')">مشاهده در GitHub</button>
-        <img class="github-badge" src="https://img.shields.io/github/stars/your-repo/TOWAI?style=flat&color=00ffcc" alt="ستاره‌های GitHub">
-        <div id="feature-panel" class="feature-panel holo-text"></div>
+  <!-- ===========================
+       Navigation (fixed top-left)
+       =========================== -->
+  <nav aria-label="منوی اصلی">
+    <a href="#home" id="link-home">خانه</a>
+    <a href="#about" id="link-about">درباره</a>
+    <a href="#docs" id="link-docs">مستندات</a>
+    <a href="#contact" id="link-contact">تماس</a>
+  </nav>
+
+  <!-- GitHub badge (placeholder 'your-repo') -->
+  <div class="gh-badge" title="GitHub - TOWAI">
+    <a href="https://github.com/your-repo/TOWAI" target="_blank" rel="noopener noreferrer">
+      <img src="https://img.shields.io/github/stars/your-repo/TOWAI?style=flat&color=00ffcc" alt="GitHub stars badge">
+    </a>
+  </div>
+
+  <!-- ===========================
+       THREE.JS CANVAS (full-screen; z-index 1)
+       The renderer will use this canvas element.
+       =========================== -->
+  <canvas id="three-canvas" aria-hidden="true"></canvas>
+
+  <!-- ===========================
+       SPA Page Containers (z-index 2)
+       - #home-content (holo-container)
+       - #about-content, #docs-content, #contact-content (.page-content)
+       =========================== -->
+  <div class="page-container" id="pages">
+    <!-- HOME -->
+    <div id="home-content" class="holo-container visible" aria-labelledby="hero-title">
+      <div class="hero-text holo-text" id="hero-title">
+        TOWAI: کاوش کد در کهکشان هوش مصنوعی
+      </div>
+
+      <div class="cta-row" role="navigation" aria-label="اقدام">
+        <a class="cta-button" href="https://t.me/TOWAI_bot" target="_blank" rel="noopener noreferrer">شروع در تلگرام</a>
+        <a class="cta-button" href="https://github.com/your-repo/TOWAI" target="_blank" rel="noopener noreferrer">مشاهده در GitHub</a>
+      </div>
+
+      <!-- feature panel (draggable) that will show code snippets when planet clicked -->
+      <div id="feature-panel" class="feature-panel" style="display:none; left:50%; top:50%;">
+        <div class="small muted">قطعه کد / ویژگی</div>
+        <pre id="feature-code"><code class="language-python"># کلیک روی یک سیاره برای مشاهده قطعه</code></pre>
+      </div>
     </div>
-    <div id="about-content" class="page-content">
-        <h1>درباره TOWAI</h1>
-        <p>TOWAI یک ربات تلگرامی open-source برای کمک به توسعه‌دهندگان در برنامه‌نویسی و AI. ساخته‌شده با الهام از کهکشان کد، با repo در GitHub.</p>
-        <p>ویژگی‌ها: تولید کد، اشکال‌زدایی، پیشنهاد API.</p>
+
+    <!-- ABOUT -->
+    <div id="about-content" class="page-content" aria-hidden="true">
+      <h1>درباره TOWAI</h1>
+      <p>
+        TOWAI یک ربات تلگرامی متن‌باز است که برای توسعه‌دهندگان طراحی شده — یک همکار هوش مصنوعی در جیب شما.
+        این پروژه ابزارهای تولید کد، بررسی خطا، اشکال‌زدایی، و پیشنهادهای معماری فراهم می‌کند تا چرخه توسعه را سریع‌تر کند.
+      </p>
+      <ul>
+        <li>تولید قطعه کد و تبدیل بین زبان‌ها</li>
+        <li>تحلیل لاگ و اشکال‌زدایی</li>
+        <li>دستورالعمل‌های استقرار و نمونه‌پیکربندی</li>
+        <li>قابلیت توسعه آسان — متن‌باز و پذیرای مشارکت</li>
+      </ul>
+      <p class="muted">حرکت شناور و عناصر کوچک هنگام بارگذاری برای احساس هولوگرافیک اعمال می‌شود.</p>
     </div>
-    <div id="docs-content" class="page-content">
-        <h1>مستندات</h1>
-        <p>نحوه استفاده از ربات:</p>
-        <pre><code class="language-python"># مثال تولید کد در تلگرام
+
+    <!-- DOCS -->
+    <div id="docs-content" class="page-content" aria-hidden="true">
+      <h1>مستندات</h1>
+      <p class="small">مثال‌های سریع و دستورات اصلی برای شروع استفاده از ربات.</p>
+
+      <h2 class="small">دستورالعمل‌ها</h2>
+      <pre><code class="language-python"># نمونه پیام‌های فرمان:
 /start
-/write_code Python function for sum</code></pre>
-        <p>برای contribute: فورک repo و pull request بفرستید.</p>
-    </div>
-    <div id="contact-content" class="page-content">
-        <h1>تماس</h1>
-        <form id="contact-form">
-            <input type="text" id="name" placeholder="نام" required>
-            <input type="email" id="email" placeholder="ایمیل" required>
-            <textarea id="message" placeholder="پیام" required></textarea>
-            <button type="submit" class="cta-button">ارسال</button>
-        </form>
+/write_code  # prompt: "لطفا تابعی در پایتون برای مرتب سازی سریع بنویس"
+/debug      # ارسال لاگ و دریافت پاسخ تجزیه‌ای</code></pre>
+
+      <h2 class="small">راهنمای مشارکت</h2>
+      <p>شاخه اصلی: <code>main</code>. برای مشارکت، فورک کرده و یک pull request ارسال کنید. پوشه docs/ شامل راهنمای توسعه و نمونه‌های API است.</p>
     </div>
 
-    <script>
-        // === Routing ساده با hash برای صفحات ===
-        const pages = ['home', 'about', 'docs', 'contact'];
-        function showPage(pageId) {
-            pages.forEach(p => document.getElementById(`${p}-content`).style.display = (p === pageId) ? 'block' : 'none');
-            if (pageId !== 'home') {
-                renderer.domElement.style.opacity = 0.3; // کمرنگ کردن 3D برای صفحات دیگر
-            } else {
-                renderer.domElement.style.opacity = 1;
-            }
+    <!-- CONTACT -->
+    <div id="contact-content" class="page-content" aria-hidden="true">
+      <h1>تماس</h1>
+      <p class="small">برای گزارش باگ، درخواست ویژگی، یا همکاری: فرم زیر را پر کنید یا در گیت‌هاب issue باز کنید.</p>
+
+      <form id="contact-form" novalidate>
+        <input type="text" id="c-name" name="name" placeholder="نام" required />
+        <input type="email" id="c-email" name="email" placeholder="ایمیل" required />
+        <textarea id="c-message" name="message" placeholder="پیام" required></textarea>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="cta-button" type="submit">ارسال پیام</button>
+          <div class="small muted">یا ایمیل: <span style="color:var(--accent)">contact@towai.example</span></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===========================
+       Scripts: modular JS implementing routing, three.js scene, particles, gsap, interactions, forms, prism highlight
+       All in a single file to satisfy the user request.
+       =========================== -->
+  <script>
+  /* ===========================
+     Utility & Routing Module
+     =========================== */
+  (function(){
+    // pages list & initial state
+    const pages = ['home','about','docs','contact'];
+    const rendererCanvas = document.getElementById('three-canvas');
+
+    function showPage(pageId){
+      const target = pageId || 'home';
+      pages.forEach(p => {
+        const el = document.getElementById(p + '-content');
+        if(!el) return;
+        if(p === target){
+          el.style.display = 'block';
+          el.classList.add('visible');
+          el.setAttribute('aria-hidden','false');
+        } else {
+          el.style.display = 'none';
+          el.classList.remove('visible');
+          el.setAttribute('aria-hidden','true');
         }
-        window.addEventListener('hashchange', () => showPage(window.location.hash.slice(1) || 'home'));
-        showPage(window.location.hash.slice(1) || 'home');
+      });
 
-        // === Scene Setup (Three.js برای محیط immersive sci-fi) ===
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
-
-        // OrbitControls برای navigation sci-fi (زوم، پن، چرخش)
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.minDistance = 1;
-        controls.maxDistance = 20;
-
-        // Holographic terrain (wireframe برای حس کد شبکه‌ای)
-        const terrainGeometry = new THREE.PlaneGeometry(50, 50, 64, 64);
-        const terrainMaterial = new THREE.MeshBasicMaterial({ color: 0x002222, wireframe: true, transparent: true, opacity: 0.4 });
-        const terrain = new THREE.Mesh(terrainGeometry, terrainMaterial);
-        terrain.rotation.x = -Math.PI / 2;
-        terrain.position.y = -5;
-        scene.add(terrain);
-
-        // === Particles Galaxy (از الهام Codrops: interactive particles) ===
-        const particleCount = 50000; // تعداد ذرات برای کهکشان
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-        for (let i = 0; i < particleCount; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 50;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 50;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
-            colors[i * 3] = Math.random();
-            colors[i * 3 + 1] = Math.random();
-            colors[i * 3 + 2] = 1;
+      // Dim the canvas on non-home pages per spec
+      if(window.renderer){ // renderer is assigned in Three module below
+        if(target !== 'home'){
+          rendererCanvas.style.opacity = 0.30;
+        } else {
+          rendererCanvas.style.opacity = 1.0;
         }
-        const particleGeometry = new THREE.BufferGeometry();
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        const particleMaterial = new THREE.PointsMaterial({ size: 0.05, vertexColors: true, blending: THREE.AdditiveBlending });
-        const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
+      }
+      // update nav active state
+      document.querySelectorAll('nav a').forEach(a => {
+        a.style.boxShadow = '';
+      });
+      const activeLink = document.querySelector(`nav a[href="#${target}"]`);
+      if(activeLink) activeLink.style.boxShadow = "0 0 20px rgba(0,255,204,0.12)";
+    }
 
-        // === سیارات ویژگی‌ها (Instanced برای کارایی) ===
-        const planetGeometry = new THREE.SphereGeometry(1, 32, 32);
-        const planets = [];
-        const features = [
-            { name: 'تولید کد', color: 0x00ff00, position: {x: -4, y: 0, z: -6}, snippet: 'def generate_code(prompt):\n    return TOWAI.api(prompt)' },
-            { name: 'اشکال‌زدایی', color: 0xff00ff, position: {x: 4, y: 1, z: -7}, snippet: 'TOWAI.debug(code) # رفع باگ در فضا' },
-            { name: 'ابزارهای AI', color: 0x0000ff, position: {x: 0, y: 2, z: -5}, snippet: 'import TOWAI\nTOWAI.suggest_api()' },
-            { name: 'ادغام GitHub', color: 0xffff00, position: {x: -2, y: -1, z: -8}, snippet: 'git clone https://github.com/your-repo/TOWAI' }
-        ];
+    // hashchange handler
+    window.addEventListener('hashchange', () => {
+      const id = location.hash.slice(1) || 'home';
+      showPage(id);
+    });
 
-        features.forEach((feat, i) => {
-            const material = new THREE.MeshBasicMaterial({ color: feat.color, wireframe: true, wireframeLinewidth: 2 });
-            const planet = new THREE.Mesh(planetGeometry, material);
-            planet.position.set(feat.position.x, feat.position.y, feat.position.z);
-            planet.userData = feat;
-            scene.add(planet);
-            planets.push(planet);
-        });
+    // initial
+    const initial = location.hash.slice(1) || 'home';
+    showPage(initial);
 
-        camera.position.set(0, 2, 10);
+    // expose for other modules
+    window.__TOWAI_ROUTER = { showPage };
+  })();
 
-        // === Particles.js برای ذرات کد باینری شناور (holographic) ===
-        particlesJS('home-content', {
-            particles: { number: { value: 300 }, color: { value: '#00ffcc' }, shape: { type: 'circle' }, opacity: { value: 0.6, random: true }, size: { value: 1.5, random: true },
-                move: { enable: true, speed: 0.8, direction: 'top', random: true, attract: { enable: true, rotateX: 600, rotateY: 1200 } } },
-            interactivity: { events: { onhover: { enable: true, mode: 'bubble' }, onclick: { enable: true, mode: 'repulse' } } }
-        });
+  /* ===========================
+     Three.js Scene Setup Module
+     - scene, camera, renderer
+     - terrain, particles galaxy, planets array
+     - controls (OrbitControls)
+     =========================== */
+  (function(){
+    // Grab canvas
+    const canvas = document.getElementById('three-canvas');
 
-        // === انیمیشن‌ها با GSAP (smooth floating, rotations, terrain pulse) ===
-        gsap.to(planets, { duration: 20, rotationY: Math.PI * 2, repeat: -1, ease: 'linear', stagger: 0.5 });
-        gsap.to(terrain.position, { duration: 5, y: -4.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-        gsap.to('.holo-text', { duration: 2.5, y: -12, repeat: -1, yoyo: true, stagger: 0.3 });
-        gsap.to(particles.rotation, { duration: 60, y: Math.PI * 2, repeat: -1, ease: 'linear' }); // چرخش کهکشان
+    // Scene + Camera + Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 2000);
+    camera.position.set(0, 2, 10);
 
-        // Draggable panel برای ویژگی‌ها (GSAP)
-        Draggable.create('#feature-panel', { type: 'x,y', bounds: 'body', inertia: true });
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1.5, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.domElement.style.display = 'block';
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.top = '0';
+    renderer.domElement.style.left = '0';
 
-        // === Interactivity (Raycaster برای کلیک سیارات, parallax موس) ===
-        const raycaster = new THREE.Raycaster();
-        const mouse = new THREE.Vector2();
-        renderer.domElement.addEventListener('mousemove', (e) => {
-            const parallaxX = (e.clientX / window.innerWidth - 0.5) * 0.1;
-            const parallaxY = (e.clientY / window.innerHeight - 0.5) * 0.1;
-            gsap.to(camera.position, { x: parallaxX * 2, y: parallaxY * 2 + 2, duration: 0.5 });
-        });
-        renderer.domElement.addEventListener('click', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(planets);
-            if (intersects.length > 0) {
-                const feat = intersects[0].object.userData;
-                const panel = document.getElementById('feature-panel');
-                panel.innerHTML = `<pre>${feat.name}\n${feat.snippet}</pre>`;
-                panel.style.display = 'block';
-                panel.style.left = `${e.clientX}px`;
-                panel.style.top = `${e.clientY}px`;
-                gsap.from(panel, { opacity: 0, scale: 0.8, duration: 0.6, ease: 'back.out(1.7)' });
-            }
-        });
+    // expose renderer globally for router to dim
+    window.renderer = renderer;
 
-        // === Render Loop ===
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            planets.forEach(p => { p.rotation.y += 0.002; });
-            renderer.render(scene, camera);
+    // Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 1.5;
+    controls.maxDistance = 60;
+    controls.enablePan = false;
+
+    // Ambient-ish holographic light (subtle)
+    const ambient = new THREE.AmbientLight(0x00ffcc, 0.08);
+    scene.add(ambient);
+
+    // -------------------------
+    // Terrain (wireframe grid)
+    // -------------------------
+    const terrainGeo = new THREE.PlaneGeometry(80, 80, 96, 96);
+    const terrainMat = new THREE.MeshBasicMaterial({
+      color: 0x002222,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.18,
+    });
+    const terrain = new THREE.Mesh(terrainGeo, terrainMat);
+    terrain.rotation.x = -Math.PI/2;
+    terrain.position.y = -5;
+    scene.add(terrain);
+
+    // -------------------------
+    // Massive starfield / galaxy particles (BufferGeometry)
+    // -------------------------
+    // per spec 50000 particles (be mindful of performance)
+    const PARTICLE_COUNT = 50000;
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
+    for(let i=0;i<PARTICLE_COUNT;i++){
+      // spread in a disk-like galaxy with some thickness
+      const radius = Math.random() * 50;
+      const angle = Math.random() * Math.PI * 2;
+      const x = Math.cos(angle) * radius * (0.6 + Math.random()*0.9);
+      const z = Math.sin(angle) * radius * (0.6 + Math.random()*0.9);
+      const y = (Math.random() - 0.5) * 6; // thin disk
+
+      positions[i*3] = x;
+      positions[i*3 + 1] = y;
+      positions[i*3 + 2] = z;
+
+      // bluish-cyan tint
+      const c = 0.2 + Math.random()*0.8;
+      colors[i*3] = 0.1 * c;      // r low
+      colors[i*3 + 1] = 1.0 * c;  // g high for cyan
+      colors[i*3 + 2] = 0.9 * c;  // b high
+    }
+    const galaxyGeom = new THREE.BufferGeometry();
+    galaxyGeom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    galaxyGeom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const galaxyMat = new THREE.PointsMaterial({
+      size: 0.05,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const galaxy = new THREE.Points(galaxyGeom, galaxyMat);
+    scene.add(galaxy);
+
+    // -------------------------
+    // Planets (wireframe spheres with userData features)
+    // -------------------------
+    const planets = [];
+    const planetFeatures = [
+      { name: "نسخه: Core", color: 0x00ffee, position: new THREE.Vector3(6, 0.6, -3), snippet: "def core():\n    return 'TOWAI core handler'"},
+      { name: "ماژول: تولید کد", color: 0x0099ff, position: new THREE.Vector3(-5, 1, -6), snippet: "# write_code handler\n# prompt => generate code snippet in requested language"},
+      { name: "ماژول: اشکال‌زدایی", color: 0x00ff99, position: new THREE.Vector3(-2, 0.3, 5), snippet: "# debug: ارسال لاگ و تحلیل خودکار"},
+      { name: "ماژول: استقرار", color: 0x0066ff, position: new THREE.Vector3(8, 1.4, 2), snippet: "# deploy guides and recipes\n# Docker/K8s snippets" }
+    ];
+    planetFeatures.forEach((f, i) => {
+      const geo = new THREE.SphereGeometry( (0.9 + i*0.1), 28, 28 );
+      const mat = new THREE.MeshBasicMaterial({
+        color: f.color,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.95
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(f.position);
+      mesh.userData = { name: f.name, snippet: f.snippet };
+      scene.add(mesh);
+      planets.push(mesh);
+    });
+
+    // subtle helper: add small orbiting inner point for each planet for visual interest
+    planets.forEach((p,i) => {
+      const small = new THREE.Mesh(new THREE.SphereGeometry(0.06,8,8), new THREE.MeshBasicMaterial({color:0x00ffcc}));
+      small.position.set(p.position.x + 1.4, p.position.y + 0.3, p.position.z);
+      scene.add(small);
+      p.userData._satellite = small;
+    });
+
+    // -------------------------
+    // Responsive resize handler
+    // -------------------------
+    function onResize(){
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    }
+    window.addEventListener('resize', onResize);
+
+    // -------------------------
+    // Expose important bits for other modules
+    // -------------------------
+    window.__TOWAI_3 = {
+      scene, camera, renderer, controls, planets, terrain, galaxy
+    };
+
+    // -------------------------
+    // Animation loop (optimized)
+    // -------------------------
+    function animate(){
+      requestAnimationFrame(animate);
+
+      // rotate galaxy slowly
+      galaxy.rotation.y += 0.0006;
+      galaxy.rotation.x += 0.00005;
+
+      // rotate tiny satellites and planets
+      planets.forEach(p => {
+        p.rotation.y += 0.0022;
+        if(p.userData._satellite){
+          p.userData._satellite.position.applyAxisAngle(new THREE.Vector3(0,1,0), 0.006);
         }
-        animate();
+      });
 
-        // Resize handler برای responsive
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+      // slow terrain bobbing
+      terrain.position.y = -5 + Math.sin(performance.now() * 0.001) * 0.12;
 
-        // === فرم تماس validation ===
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-            if (name && email && message) {
-                alert('پیام ارسال شد! (در واقعیت به سرور بفرستید)');
-            } else {
-                alert('لطفاً همه فیلدها را پر کنید.');
-            }
-        });
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
 
-        // Prism برای highlight کد در docs
-        Prism.highlightAll();
-    </script>
+    // -------------------------
+    // GSAP animations (visual polish)
+    // -------------------------
+    // Rotate planets in a slow orbital fashion (use gsap to animate a virtual prop)
+    try {
+      // animate planet orbits by rotating group-equivalent via userData pivot
+      gsap.to(planets, {
+        duration: 30,
+        rotation: Math.PI * 2,
+        repeat: -1,
+        ease: 'linear',
+        modifiers: {
+          rotation: (r) => r // no-op but keeps consistent API usage
+        }
+      });
+      // terrain subtle yoyo for organic feel
+      gsap.to(terrain.position, { duration: 5, y: -4.85, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      // holo text float (already has CSS but add small GSAP)
+      gsap.to('.holo-text', { duration: 2.5, y: -12, repeat: -1, yoyo: true, ease: 'sine.inOut', stagger: 0.3 });
+      // galaxy very slow rotation using gsap for consistent timing
+      gsap.to(galaxy.rotation, { duration: 120, y: Math.PI * 2, repeat: -1, ease: 'linear' });
+    } catch (e) {
+      console.warn('GSAP animations may not have loaded.', e);
+    }
+
+  })();
+
+  /* ===========================
+     Particles.js Integration
+     - target: 'home-content' per spec
+     =========================== */
+  (function(){
+    try {
+      // particles.js expects a DOM element id; we initialize with subtle particles for UI layer
+      particlesJS('home-content', {
+        "particles": {
+          "number": {
+            "value": 250,
+            "density": { "enable": true, "value_area": 800 }
+          },
+          "color": { "value": "#00ffcc" },
+          "shape": { "type": "circle" },
+          "opacity": {
+            "value": 0.6,
+            "random": true
+          },
+          "size": {
+            "value": 1.5,
+            "random": true
+          },
+          "move": {
+            "enable": true,
+            "speed": 0.8,
+            "direction": "top",
+            "random": true,
+            "straight": false,
+            "out_mode": "out",
+            "attract": { "enable": true, "rotateX": 600, "rotateY": 1200 }
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": { "enable": true, "mode": "bubble" },
+            "onclick": { "enable": true, "mode": "repulse" },
+            "resize": true
+          },
+          "modes": {
+            "bubble": { "distance": 100, "size": 3, "duration": 2, "opacity": 0.8 },
+            "repulse": { "distance": 120, "duration": 0.4 }
+          }
+        },
+        "retina_detect": true
+      });
+    } catch (err) {
+      console.warn('particles.js failed to init', err);
+    }
+  })();
+
+  /* ===========================
+     Interactivity Module
+     - Raycaster for planet clicks
+     - Mouse parallax for camera (GSAP)
+     - Show feature-panel on planet click with snippet content
+     - Draggable feature-panel (GSAP Draggable)
+     =========================== */
+  (function(){
+    const { scene, camera, renderer, planets } = window.__TOWAI_3;
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    // DOM references
+    const featurePanel = document.getElementById('feature-panel');
+    const featureCode = document.getElementById('feature-code');
+
+    // Make feature panel draggable using GSAP Draggable
+    try {
+      Draggable.create("#feature-panel", {
+        type: "x,y",
+        edgeResistance: 0.85,
+        bounds: document.body,
+        inertia: true
+      });
+    } catch(e){ /* Draggable may not load; ignore silently */ }
+
+    // Mouse move: camera parallax
+    window.addEventListener('mousemove', (ev) => {
+      const nx = (ev.clientX / window.innerWidth) - 0.5;
+      const ny = (ev.clientY / window.innerHeight) - 0.5;
+      const targetX = nx * 2;
+      const targetY = -ny * 1.2 + 1.8; // keep camera slightly elevated
+
+      // GSAP smooth camera movement
+      try {
+        gsap.to(camera.position, { x: targetX, y: targetY, duration: 0.6, ease: 'power3.out' });
+      } catch(e){
+        camera.position.x = targetX;
+        camera.position.y = targetY;
+      }
+    });
+
+    // Click / touch: check intersections with planets
+    function onPointerDown(ev){
+      // support touch & mouse
+      const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+      const clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+      mouse.x = (clientX / window.innerWidth) * 2 - 1;
+      mouse.y = - (clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(planets, true);
+
+      if(intersects.length > 0){
+        const hit = intersects[0].object;
+        const data = hit.userData || {};
+        const title = data.name || 'جزئیات';
+        const snippet = data.snippet || '# اطلاعات موجود نیست';
+
+        // populate feature panel
+        featureCode.textContent = `# ${title}\n\n${snippet}`;
+        // highlight with Prism (re-run)
+        try { Prism.highlightElement(featureCode.querySelector('code')); } catch(e){}
+
+        // position panel near click but keep within viewport
+        const left = Math.min(window.innerWidth - 40, Math.max(20, clientX - 160));
+        const top = Math.min(window.innerHeight - 40, Math.max(60, clientY - 80));
+        featurePanel.style.left = left + 'px';
+        featurePanel.style.top = top + 'px';
+        featurePanel.style.display = 'block';
+
+        // animate the panel pop-in
+        try {
+          gsap.fromTo(featurePanel, { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" });
+        } catch(e){}
+      }
+    }
+
+    window.addEventListener('pointerdown', onPointerDown, { passive: true });
+    window.addEventListener('touchstart', onPointerDown, { passive: true });
+
+    // Clicking outside panel hides it
+    window.addEventListener('click', (ev) => {
+      const target = ev.target;
+      if(!featurePanel.contains(target) && !target.closest('canvas')){
+        // small delay to avoid immediate hide on click that opened it
+        if(featurePanel.style.display === 'block'){
+          try { gsap.to(featurePanel, { opacity: 0, duration: 0.25, onComplete: () => featurePanel.style.display = 'none' }); }
+          catch(e){ featurePanel.style.display = 'none'; }
+        }
+      }
+    });
+
+  })();
+
+  /* ===========================
+     UI & Form handling + Prism highlight on load
+     =========================== */
+  (function(){
+    // Prism highlight initial
+    try { Prism.highlightAll(); } catch(e){}
+
+    // Contact form validation (simple)
+    const form = document.getElementById('contact-form');
+    if(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('c-name').value.trim();
+        const email = document.getElementById('c-email').value.trim();
+        const message = document.getElementById('c-message').value.trim();
+
+        if(!name || !email || !message){
+          alert('لطفاً همه فیلدها را پر کنید.');
+          return;
+        }
+        // In a real app, here you'd POST to your backend. For demo:
+        try {
+          // small visual send animation
+          gsap.to(form, { opacity: 0.6, duration: 0.2, yoyo: true, repeat: 1 });
+        } catch(e){}
+        alert('پیام شما ثبت شد — متشکریم!');
+
+        // Reset
+        form.reset();
+      });
+    }
+
+    // Wire up nav links to ensure router works without full reload
+    document.querySelectorAll('nav a').forEach(a => {
+      a.addEventListener('click', (ev) => {
+        // allow default hash anchor behavior; ensure SPA route update
+        setTimeout(() => {
+          const id = location.hash.slice(1) || 'home';
+          window.__TOWAI_ROUTER && window.__TOWAI_ROUTER.showPage(id);
+        }, 10);
+      });
+    });
+
+    // If user opens non-home initially, dim canvas (router already does, but ensure renderer exists)
+    setTimeout(() => {
+      const id = location.hash.slice(1) || 'home';
+      window.__TOWAI_ROUTER && window.__TOWAI_ROUTER.showPage(id);
+    }, 50);
+
+  })();
+
+  /* ===========================
+     End of JS
+     =========================== */
+  </script>
 </body>
 </html>
